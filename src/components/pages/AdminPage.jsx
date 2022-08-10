@@ -58,8 +58,12 @@ export default function AdminPage({}) {
   }
 
   return (
-    <div className="flex justify-center gap-5">
-      <form action="" className="flex flex-col w-96" onSubmit={createRecipe}>
+    <div className="flex justify-center items-start gap-5">
+      <form
+        action=""
+        className="flex flex-col w-96 border p-3"
+        onSubmit={createRecipe}
+      >
         <h1 className="text-2xl">Add recipe to Database</h1>
 
         <div>
@@ -105,7 +109,7 @@ export default function AdminPage({}) {
 
       <form
         action=""
-        className="flex flex-col w-96"
+        className="flex flex-col w-96 border p-3"
         onSubmit={createIngredient}
       >
         <h1 className="text-2xl">Add ingredient to Database</h1>
