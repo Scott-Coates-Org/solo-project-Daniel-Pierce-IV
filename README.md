@@ -72,7 +72,7 @@ Go to the [milestones tab](../../milestone/1) to track your progress.
 
 ### Description
 
-**Required:** update [your repository](https://stackoverflow.com/questions/7757751/how-do-you-change-a-repository-description-on-github) with a short description of your project.
+A social recipe webapp with powerful search/filtering features
 
 ### Mockups
 
