@@ -3,14 +3,25 @@ import { getDownloadURL, ref } from 'firebase/storage';
 import { useState } from 'react';
 import { db, storage } from '../../firebase/client';
 import { useUploadFile } from 'react-firebase-hooks/storage';
+import { Ingredients } from '../../firebase/models/ingredients';
+import { useEffect } from 'react';
 
 export default function AdminPage({}) {
   const [recipeName, setRecipeName] = useState('');
   const [description, setDescription] = useState('');
   const [ingredientName, setIngredientName] = useState('');
+  const [ingredients, setIngredients] = useState([]);
 
   const [image, setImage] = useState(null);
   const [uploadFile] = useUploadFile();
+
+  function fetchIngredients() {
+    Ingredients.all().then((data) => setIngredients(data));
+  }
+
+  useEffect(() => {
+    fetchIngredients();
+  }, []);
 
   async function createRecipe(e) {
     e.preventDefault();
@@ -52,6 +63,8 @@ export default function AdminPage({}) {
         collection(db, 'ingredients'),
         ingredientData
       );
+
+      fetchIngredients();
     } catch (error) {
       console.log(error);
     }
@@ -131,6 +144,12 @@ export default function AdminPage({}) {
           Create Ingredient
         </button>
       </form>
+
+      <div className="flex flex-col">
+        {ingredients.map((ingredient, i) => (
+          <div key={i}>{ingredient.name}</div>
+        ))}
+      </div>
     </div>
   );
 }
