@@ -76,6 +76,4 @@ A social recipe webapp with powerful search/filtering features
 
 ### Mockups
 
-_View `README.md` to see how to replace me with mockups._
-
 ![Bespork](/mockups/bespork-mockup.jpg)
