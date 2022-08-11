@@ -30,6 +30,10 @@ export default function RecipeForm({}) {
           ...recipeData,
           imageURL: await getDownloadURL(imageRef),
         });
+
+        setName('');
+        setDescription('');
+        setImage(null);
       } catch (error) {
         console.log(error);
       }
