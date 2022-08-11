@@ -1,14 +1,22 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Ingredients } from '../firebase/models/ingredients';
 import ButtonDialog from './ButtonDialog';
 import IngredientSearch from './IngredientSearch';
 import AdminPage from './pages/AdminPage';
 import Homepage from './pages/HomePage';
 
 export default function App() {
+  const [ingredients, setIngredients] = useState([]);
+
+  useEffect(() => {
+    Ingredients.all().then((data) => setIngredients(data));
+  }, []);
+
   return (
     <BrowserRouter>
       <ButtonDialog className="px-2 text-xl bg-yellow-300" content="Filters">
-        <IngredientSearch />
+        <IngredientSearch ingredients={ingredients} />
       </ButtonDialog>
 
       <Routes>

@@ -1,15 +1,8 @@
-import { useEffect } from 'react';
 import { useState } from 'react';
-import { Ingredients } from '../firebase/models/ingredients';
 import IngredientSearchResult from './IngredientSearchResult';
 
-export default function IngredientSearch({}) {
-  const [ingredients, setIngredients] = useState();
+export default function IngredientSearch({ ingredients }) {
   const [searchText, setSearchText] = useState('');
-
-  useEffect(() => {
-    Ingredients.all().then((data) => setIngredients(data));
-  }, []);
 
   function updateSearch(e) {
     setSearchText(e.target.value);
