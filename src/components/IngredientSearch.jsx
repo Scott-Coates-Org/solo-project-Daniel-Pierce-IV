@@ -30,6 +30,7 @@ export default function IngredientSearch({}) {
         className="border border-black"
         onChange={updateSearch}
         value={searchText}
+        autoFocus
       />
       <div className="flex flex-col grow gap-1 bg-orange-300">
         {searchIngredients()?.map((ingredient, i) => (
