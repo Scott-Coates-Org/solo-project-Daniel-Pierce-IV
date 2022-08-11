@@ -1,7 +1,6 @@
 import { collection } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db } from '../../firebase/client';
-import IngredientSearch from '../IngredientSearch';
 import RecipeCard from '../RecipeCard';
 
 export default function Homepage({}) {
@@ -14,7 +13,6 @@ export default function Homepage({}) {
           <RecipeCard recipe={recipe} key={index} />
         ))}
       </div>
-      <IngredientSearch />
     </div>
   );
 }

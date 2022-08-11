@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Ingredients } from '../firebase/models/ingredients';
+import IngredientSearchResult from './IngredientSearchResult';
 
 export default function IngredientSearch({}) {
   const [ingredients, setIngredients] = useState();
@@ -23,11 +24,16 @@ export default function IngredientSearch({}) {
   }
 
   return (
-    <div className="flex flex-col w-60">
-      <input type="text" onChange={updateSearch} value={searchText} />
-      <div className="flex flex-col">
+    <div className="flex flex-col w-60 h-[50vh]">
+      <input
+        type="text"
+        className="border border-black"
+        onChange={updateSearch}
+        value={searchText}
+      />
+      <div className="flex flex-col grow gap-1 bg-orange-300">
         {searchIngredients()?.map((ingredient, i) => (
-          <div key={ingredient.id}>{ingredient.name}</div>
+          <IngredientSearchResult key={ingredient.id} name={ingredient.name} />
         ))}
       </div>
     </div>
