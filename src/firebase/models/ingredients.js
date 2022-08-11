@@ -21,6 +21,11 @@ async function all() {
   return ingredients;
 }
 
+async function allThen(callback) {
+  callback(await all());
+}
+
 export const Ingredients = {
   all,
+  allThen,
 };

@@ -10,7 +10,7 @@ export default function App() {
   const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
-    Ingredients.all().then((data) => setIngredients(data));
+    Ingredients.allThen(setIngredients);
   }, []);
 
   return (
