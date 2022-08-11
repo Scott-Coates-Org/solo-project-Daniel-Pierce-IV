@@ -1,16 +1,20 @@
 import { collection } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db } from '../../firebase/client';
+import IngredientSearch from '../IngredientSearch';
 import RecipeCard from '../RecipeCard';
 
 export default function Homepage({}) {
   const [recipes] = useCollectionData(collection(db, 'recipes'));
 
   return (
-    <div className="flex gap-3">
-      {recipes?.map((recipe, index) => (
-        <RecipeCard recipe={recipe} key={index} />
-      ))}
+    <div>
+      <div className="flex gap-3">
+        {recipes?.map((recipe, index) => (
+          <RecipeCard recipe={recipe} key={index} />
+        ))}
+      </div>
+      <IngredientSearch />
     </div>
   );
 }
