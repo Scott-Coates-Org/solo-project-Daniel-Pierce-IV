@@ -7,7 +7,10 @@ export default function Homepage({}) {
   const [recipes] = useCollectionData(collection(db, 'recipes'));
 
   return (
-    recipes &&
-    recipes.map((recipe, index) => <RecipeCard recipe={recipe} key={index} />)
+    <div className="flex gap-3">
+      {recipes?.map((recipe, index) => (
+        <RecipeCard recipe={recipe} key={index} />
+      ))}
+    </div>
   );
 }
