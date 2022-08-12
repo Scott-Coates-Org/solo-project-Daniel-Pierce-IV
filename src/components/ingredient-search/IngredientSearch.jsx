@@ -3,6 +3,7 @@ import IngredientSearchResult from './IngredientSearchResult';
 
 export default function IngredientSearch({
   ingredients,
+  selectedIngredients,
   onMustHaveSelect,
   onCanHaveSelect,
   onCantHaveSelect,
@@ -15,8 +16,10 @@ export default function IngredientSearch({
 
   function searchIngredients() {
     if (searchText) {
-      return ingredients?.filter((ingredient) =>
-        ingredient.name.toLowerCase().includes(searchText.toLowerCase())
+      return ingredients?.filter(
+        (ingredient) =>
+          ingredient.name.toLowerCase().includes(searchText.toLowerCase()) &&
+          !selectedIngredients.includes(ingredient)
       );
     }
   }

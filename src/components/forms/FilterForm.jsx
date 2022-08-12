@@ -16,6 +16,11 @@ export default function FilterForm({
     <form action="" className="flex items-start">
       <IngredientSearch
         ingredients={ingredients}
+        selectedIngredients={[
+          ...mustHaveFilters,
+          ...canHaveFilters,
+          ...cantHaveFilters,
+        ]}
         onMustHaveSelect={onMustHaveSelect}
         onCanHaveSelect={onCanHaveSelect}
         onCantHaveSelect={onCantHaveSelect}
