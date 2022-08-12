@@ -16,16 +16,16 @@ export default function App() {
     Ingredients.allThen(setIngredients);
   }, []);
 
-  function addToMustHaveFilters(ingredientName) {
-    setMustHaveFilters([...mustHaveFilters, ingredientName]);
+  function addToMustHaveFilters(ingredient) {
+    setMustHaveFilters([...mustHaveFilters, ingredient]);
   }
 
-  function addToCanHaveFilters(ingredientName) {
-    setCanHaveFilters([...canHaveFilters, ingredientName]);
+  function addToCanHaveFilters(ingredient) {
+    setCanHaveFilters([...canHaveFilters, ingredient]);
   }
 
-  function addToCantHaveFilters(ingredientName) {
-    setCantHaveFilters([...cantHaveFilters, ingredientName]);
+  function addToCantHaveFilters(ingredient) {
+    setCantHaveFilters([...cantHaveFilters, ingredient]);
   }
 
   return (
