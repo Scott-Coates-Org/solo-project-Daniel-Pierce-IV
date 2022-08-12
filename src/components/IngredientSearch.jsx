@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import IngredientSearchResult from './IngredientSearchResult';
 
-export default function IngredientSearch({ ingredients }) {
+export default function IngredientSearch({ ingredients, onSelect }) {
   const [searchText, setSearchText] = useState('');
 
   function updateSearch(e) {
@@ -26,8 +26,12 @@ export default function IngredientSearch({ ingredients }) {
         autoFocus
       />
       <div className="flex flex-col grow gap-1 bg-orange-300">
-        {searchIngredients()?.map((ingredient, i) => (
-          <IngredientSearchResult key={ingredient.id} name={ingredient.name} />
+        {searchIngredients()?.map((ingredient) => (
+          <IngredientSearchResult
+            key={ingredient.id}
+            name={ingredient.name}
+            onSelect={onSelect.bind(null, ingredient)}
+          />
         ))}
       </div>
     </div>
