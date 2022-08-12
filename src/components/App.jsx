@@ -8,14 +8,24 @@ import Homepage from './pages/HomePage';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
-  const [selections, setSelections] = useState([]);
+  const [mustHaveFilters, setMustHaveFilters] = useState([]);
+  const [canHaveFilters, setCanHaveFilters] = useState([]);
+  const [cantHaveFilters, setCantHaveFilters] = useState([]);
 
   useEffect(() => {
     Ingredients.allThen(setIngredients);
   }, []);
 
-  function addToSelections(ingredientName) {
-    setSelections([...selections, ingredientName]);
+  function addToMustHaveFilters(ingredientName) {
+    setMustHaveFilters([...mustHaveFilters, ingredientName]);
+  }
+
+  function addToCanHaveFilters(ingredientName) {
+    setCanHaveFilters([...canHaveFilters, ingredientName]);
+  }
+
+  function addToCantHaveFilters(ingredientName) {
+    setCantHaveFilters([...cantHaveFilters, ingredientName]);
   }
 
   return (
@@ -23,8 +33,12 @@ export default function App() {
       <ButtonDialog className="px-2 text-xl bg-yellow-300" content="Filters">
         <FilterForm
           ingredients={ingredients}
-          selections={selections}
-          onSelect={addToSelections}
+          mustHaveFilters={mustHaveFilters}
+          canHaveFilters={canHaveFilters}
+          cantHaveFilters={cantHaveFilters}
+          onMustHaveSelect={addToMustHaveFilters}
+          onCanHaveSelect={addToCanHaveFilters}
+          onCantHaveSelect={addToCantHaveFilters}
         />
       </ButtonDialog>
 

@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import IngredientSearchResult from './IngredientSearchResult';
 
-export default function IngredientSearch({ ingredients, onSelect }) {
+export default function IngredientSearch({
+  ingredients,
+  onMustHaveSelect,
+  onCanHaveSelect,
+  onCantHaveSelect,
+}) {
   const [searchText, setSearchText] = useState('');
 
   function updateSearch(e) {
@@ -30,7 +35,9 @@ export default function IngredientSearch({ ingredients, onSelect }) {
           <IngredientSearchResult
             key={ingredient.id}
             name={ingredient.name}
-            onSelect={onSelect.bind(null, ingredient)}
+            onMustHaveSelect={onMustHaveSelect.bind(null, ingredient)}
+            onCanHaveSelect={onCanHaveSelect.bind(null, ingredient)}
+            onCantHaveSelect={onCantHaveSelect.bind(null, ingredient)}
           />
         ))}
       </div>
