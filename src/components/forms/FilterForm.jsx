@@ -9,8 +9,11 @@ export default function FilterForm({
   canHaveFilters,
   cantHaveFilters,
   onMustHaveSelect,
+  onMustHaveRemove,
   onCanHaveSelect,
+  onCanHaveRemove,
   onCantHaveSelect,
+  onCantHaveRemove,
 }) {
   return (
     <form action="" className="flex items-start">
@@ -28,15 +31,30 @@ export default function FilterForm({
 
       <ul className="selections flex flex-wrap items-start gap-2">
         {mustHaveFilters.map((selection) => (
-          <MustHaveChip key={selection.id}>{selection.name}</MustHaveChip>
+          <MustHaveChip
+            key={selection.id}
+            onRemove={onMustHaveRemove.bind(null, selection)}
+          >
+            {selection.name}
+          </MustHaveChip>
         ))}
 
         {canHaveFilters.map((selection) => (
-          <CanHaveChip key={selection.id}>{selection.name}</CanHaveChip>
+          <CanHaveChip
+            key={selection.id}
+            onRemove={onCanHaveRemove.bind(null, selection)}
+          >
+            {selection.name}
+          </CanHaveChip>
         ))}
 
         {cantHaveFilters.map((selection) => (
-          <CantHaveChip key={selection.id}>{selection.name}</CantHaveChip>
+          <CantHaveChip
+            key={selection.id}
+            onRemove={onCantHaveRemove.bind(null, selection)}
+          >
+            {selection.name}
+          </CantHaveChip>
         ))}
       </ul>
     </form>

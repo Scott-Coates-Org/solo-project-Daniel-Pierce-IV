@@ -20,12 +20,28 @@ export default function App() {
     setMustHaveFilters([...mustHaveFilters, ingredient]);
   }
 
+  function removeFromMustHaveFilters(ingredient) {
+    setMustHaveFilters(
+      mustHaveFilters.filter((filter) => ingredient !== filter)
+    );
+  }
+
   function addToCanHaveFilters(ingredient) {
     setCanHaveFilters([...canHaveFilters, ingredient]);
   }
 
+  function removeFromCanHaveFilters(ingredient) {
+    setCanHaveFilters(canHaveFilters.filter((filter) => ingredient !== filter));
+  }
+
   function addToCantHaveFilters(ingredient) {
     setCantHaveFilters([...cantHaveFilters, ingredient]);
+  }
+
+  function removeFromCantHaveFilters(ingredient) {
+    setCantHaveFilters(
+      cantHaveFilters.filter((filter) => ingredient !== filter)
+    );
   }
 
   return (
@@ -37,8 +53,11 @@ export default function App() {
           canHaveFilters={canHaveFilters}
           cantHaveFilters={cantHaveFilters}
           onMustHaveSelect={addToMustHaveFilters}
+          onMustHaveRemove={removeFromMustHaveFilters}
           onCanHaveSelect={addToCanHaveFilters}
+          onCanHaveRemove={removeFromCanHaveFilters}
           onCantHaveSelect={addToCantHaveFilters}
+          onCantHaveRemove={removeFromCantHaveFilters}
         />
       </ButtonDialog>
 
