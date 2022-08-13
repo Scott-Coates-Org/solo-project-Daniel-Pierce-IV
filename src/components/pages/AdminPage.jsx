@@ -8,7 +8,7 @@ export default function AdminPage({}) {
   const [ingredients, setIngredients] = useState([]);
 
   function fetchIngredients() {
-    Ingredients.all().then((data) => setIngredients(data));
+    Ingredients.getAll().then((data) => setIngredients(data));
   }
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../client';
 
-function IngredientFactory(document) {
+function IngredientModel(document) {
   return {
     id: document.id,
     ...document.data(),
@@ -10,22 +10,17 @@ function IngredientFactory(document) {
 
 // Database interaction functions
 
-// Retrieves all documents from ingredient collection
-async function all() {
+// Returns all documents as Ingredients from ingredients collection
+async function getAll() {
   const querySnapshot = await getDocs(collection(db, 'ingredients'));
-
-  const ingredients = [];
-
-  querySnapshot.forEach((doc) => ingredients.push(IngredientFactory(doc)));
-
-  return ingredients;
+  return querySnapshot.docs.map(IngredientModel);
 }
 
-async function allThen(callback) {
-  callback(await all());
+async function getAllThen(callback) {
+  callback(await getAll());
 }
 
 export const Ingredients = {
-  all,
-  allThen,
+  getAll,
+  getAllThen,
 };

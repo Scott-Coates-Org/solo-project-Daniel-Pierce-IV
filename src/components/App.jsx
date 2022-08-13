@@ -13,7 +13,7 @@ export default function App() {
   const [cantHaveFilters, setCantHaveFilters] = useState([]);
 
   useEffect(() => {
-    Ingredients.allThen(setIngredients);
+    Ingredients.getAllThen(setIngredients);
   }, []);
 
   function addToMustHaveFilters(ingredient) {
