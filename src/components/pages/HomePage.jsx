@@ -1,10 +1,13 @@
-import { collection } from 'firebase/firestore';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { db } from '../../firebase/client';
+import { useEffect, useState } from 'react';
+import { Recipe } from '../../firebase/models/Recipe';
 import RecipeCard from '../RecipeCard';
 
 export default function Homepage() {
-  const [recipes] = useCollectionData(collection(db, 'recipes'));
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    Recipe.getAllThen(setRecipes);
+  }, []);
 
   return (
     <div>
