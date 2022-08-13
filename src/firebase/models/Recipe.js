@@ -10,7 +10,7 @@ function RecipeModel(document) {
 
 // Database interaction functions
 
-// Returns all documents from recipe collection
+// Returns all documents as Recipes from recipe collection
 async function getAll() {
   const querySnapshot = await getDocs(collection(db, 'recipes'));
   return querySnapshot.docs.map(RecipeModel);
