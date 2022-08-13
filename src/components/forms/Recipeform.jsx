@@ -1,43 +1,14 @@
-import { addDoc, collection, setDoc } from 'firebase/firestore';
-import { getDownloadURL, ref } from 'firebase/storage';
 import { useState } from 'react';
-import { useUploadFile } from 'react-firebase-hooks/storage';
-import { db, storage } from '../../firebase/client';
+import { Recipe } from '../../firebase/models/Recipe';
 
 export default function RecipeForm({}) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
-  const [uploadFile] = useUploadFile();
+  const [imageFile, setImageFile] = useState(null);
 
-  async function createRecipe(e) {
+  function createRecipe(e) {
     e.preventDefault();
-
-    if (image) {
-      try {
-        const recipeData = {
-          name: name,
-          description,
-        };
-
-        const recipeRef = await addDoc(collection(db, 'recipes'), recipeData);
-
-        const imageRef = ref(storage, `${recipeRef.id}/card`);
-
-        const result = await uploadFile(imageRef, image);
-
-        await setDoc(recipeRef, {
-          ...recipeData,
-          imageURL: await getDownloadURL(imageRef),
-        });
-
-        setName('');
-        setDescription('');
-        setImage(null);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    Recipe.add({ name, description, imageFile });
   }
 
   return (
@@ -80,7 +51,7 @@ export default function RecipeForm({}) {
           name="recipeImage"
           id="recipe-image"
           className="border w-full"
-          onChange={(e) => setImage(e.target.files[0])}
+          onChange={(e) => setImageFile(e.target.files[0])}
         />
       </div>
 
