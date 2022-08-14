@@ -20,7 +20,9 @@ export default class Recipe extends Model {
     try {
       const recipeRef = await addDoc(collection(db, this.collectionName), data);
 
-      RecipeIngredients.add(recipeRef.id, data.ingredients);
+      RecipeIngredients.add(
+        RecipeIngredients.toData(recipeRef.id, data.ingredients)
+      );
 
       const storageRef = ref(storage, `${recipeRef.id}/card`);
       await uploadBytes(storageRef, imageFile);
