@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Ingredient } from '../firebase/models/Ingredient';
+import Ingredient from '../firebase/models/Ingredient';
 import ButtonDialog from './ButtonDialog';
 import FilterForm from './forms/FilterForm';
 import AdminPage from './pages/AdminPage';

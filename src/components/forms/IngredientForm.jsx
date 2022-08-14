@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Ingredient } from '../../firebase/models/Ingredient';
+import Ingredient from '../../firebase/models/Ingredient';
 
 export default function IngredientForm() {
   const [name, setName] = useState('');

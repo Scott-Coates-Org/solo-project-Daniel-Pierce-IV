@@ -1,49 +1,24 @@
-import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../client';
+import Model from './Model';
 
-function IngredientModel(document) {
-  return {
-    id: document.id,
-    ...document.data(),
-  };
-}
+export default class Ingredient extends Model {
+  static get collectionName() {
+    return 'ingredients';
+  }
 
-// Ingredient ids are made to be easily readable in Firestore console
-export function ingredientNameToId(name) {
-  return name.toLowerCase().split(' ').join('_');
-}
+  // Ingredient ids are made to be easily readable in Firestore console
+  static nameToId(name) {
+    return name.toLowerCase().split(' ').join('_');
+  }
 
-// Database interaction functions
+  static async add(data) {
+    const ingredientRef = doc(
+      db,
+      Ingredient.collectionName,
+      this.nameToId(data.name)
+    );
 
-// Returns all documents as Ingredients from ingredients collection
-async function getAll() {
-  const querySnapshot = await getDocs(collection(db, 'ingredients'));
-  return querySnapshot.docs.map(IngredientModel);
-}
-
-async function getAllThen(callback) {
-  callback(await getAll());
-}
-
-// Creates (or updates) an Ingredient as document in the ingredients collection
-async function add(ingredientData) {
-  try {
-    const ingredientId = ingredientNameToId(ingredientData.name);
-    const ingredientRef = doc(db, 'ingredients', ingredientId);
-
-    await setDoc(ingredientRef, ingredientData);
-  } catch (error) {
-    console.log(error);
+    await setDoc(ingredientRef, data);
   }
 }
-
-async function addThen(ingredientData, callback) {
-  callback(await add(ingredientData));
-}
-
-export const Ingredient = {
-  add,
-  addThen,
-  getAll,
-  getAllThen,
-};
