@@ -1,27 +1,12 @@
-import { addDoc, collection } from 'firebase/firestore';
 import { useState } from 'react';
-import { db } from '../../firebase/client';
+import { Ingredient } from '../../firebase/models/Ingredient';
 
 export default function IngredientForm() {
   const [name, setName] = useState('');
 
-  async function createIngredient(e) {
+  function createIngredient(e) {
     e.preventDefault();
-
-    try {
-      const ingredientData = {
-        name: name,
-      };
-
-      setName('');
-
-      const ingredientRef = await addDoc(
-        collection(db, 'ingredients'),
-        ingredientData
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    Ingredient.addThen({ name }, setName.bind(null, ''));
   }
 
   return (
