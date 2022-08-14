@@ -2,7 +2,7 @@ import { addDoc, collection, setDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../client';
 import Model from './Model';
-import { RecipeIngredients } from './RecipeIngredients';
+import RecipeIngredients from './RecipeIngredients';
 
 export default class Recipe extends Model {
   static get collectionName() {
