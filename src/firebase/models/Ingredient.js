@@ -20,7 +20,7 @@ async function getAllThen(callback) {
   callback(await getAll());
 }
 
-export const Ingredients = {
+export const Ingredient = {
   getAll,
   getAllThen,
 };

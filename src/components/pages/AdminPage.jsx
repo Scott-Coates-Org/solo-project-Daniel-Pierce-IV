@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Ingredients } from '../../firebase/models/ingredients';
+import { Ingredient } from '../../firebase/models/Ingredient';
 import { useEffect } from 'react';
 import RecipeForm from '../forms/Recipeform';
 import IngredientForm from '../forms/IngredientForm';
@@ -8,7 +8,7 @@ export default function AdminPage({}) {
   const [ingredients, setIngredients] = useState([]);
 
   function fetchIngredients() {
-    Ingredients.getAll().then((data) => setIngredients(data));
+    Ingredient.getAll().then((data) => setIngredients(data));
   }
 
   useEffect(() => {

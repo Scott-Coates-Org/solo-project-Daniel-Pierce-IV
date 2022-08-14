@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Ingredients } from '../firebase/models/ingredients';
+import { Ingredient } from '../firebase/models/Ingredient';
 import ButtonDialog from './ButtonDialog';
 import FilterForm from './forms/FilterForm';
 import AdminPage from './pages/AdminPage';
@@ -13,7 +13,7 @@ export default function App() {
   const [cantHaveFilters, setCantHaveFilters] = useState([]);
 
   useEffect(() => {
-    Ingredients.getAllThen(setIngredients);
+    Ingredient.getAllThen(setIngredients);
   }, []);
 
   function addToMustHaveFilters(ingredient) {
@@ -63,7 +63,10 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route
+          path="/admin"
+          element={<AdminPage ingredients={ingredients} />}
+        />
       </Routes>
     </BrowserRouter>
   );
