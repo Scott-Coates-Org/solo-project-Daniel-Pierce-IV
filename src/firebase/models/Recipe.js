@@ -1,4 +1,11 @@
-import { addDoc, collection, getDocs, setDoc } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../client';
 import { RecipeIngredients } from './RecipeIngredients';
@@ -20,6 +27,19 @@ async function getAll() {
 
 async function getAllThen(callback) {
   callback(await getAll());
+}
+
+// Returns documents with matching ids as Recipes from recipes collection
+async function getByIds(ids) {
+  const docs = await Promise.all(
+    ids.map((id) => getDoc(doc(db, 'recipes', id)))
+  );
+
+  return docs.map(RecipeModel);
+}
+
+async function getByIdsThen(ids, callback) {
+  callback(await getByIds(ids));
 }
 
 // Creates a new Recipe as document in the recipes collection,
@@ -53,4 +73,6 @@ export const Recipe = {
   add,
   getAll,
   getAllThen,
+  getByIds,
+  getByIdsThen,
 };
