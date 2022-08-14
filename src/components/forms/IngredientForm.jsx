@@ -2,7 +2,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { useState } from 'react';
 import { db } from '../../firebase/client';
 
-export default function IngredientForm({ onSubmit }) {
+export default function IngredientForm() {
   const [name, setName] = useState('');
 
   async function createIngredient(e) {
@@ -30,7 +30,6 @@ export default function IngredientForm({ onSubmit }) {
       className="flex flex-col w-96 border p-3"
       onSubmit={(e) => {
         createIngredient(e);
-        onSubmit();
       }}
     >
       <h1 className="text-2xl">Add ingredient to Database</h1>
