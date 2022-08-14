@@ -2,12 +2,20 @@ import { useEffect, useState } from 'react';
 import Recipe from '../../firebase/models/Recipe';
 import RecipeCard from '../RecipeCard';
 
-export default function Homepage() {
+export default function Homepage({ recipesToShow, isFiltered }) {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    Recipe.getAll().then(setRecipes);
-  }, []);
+    if (recipesToShow.length > 0) {
+      Recipe.getByIds(recipesToShow.map((recipe) => recipe.recipeId)).then(
+        setRecipes
+      );
+    } else if (!isFiltered) {
+      Recipe.getAll().then(setRecipes);
+    } else {
+      setRecipes([]);
+    }
+  }, [recipesToShow]);
 
   return (
     <div>
