@@ -1,5 +1,6 @@
 import RecipeForm from '../forms/Recipeform';
 import IngredientForm from '../forms/IngredientForm';
+import seedDatabase from '../../firebase/seeder';
 
 export default function AdminPage({ ingredients }) {
   return (
@@ -13,6 +14,14 @@ export default function AdminPage({ ingredients }) {
           <div key={i}>{ingredient.name}</div>
         ))}
       </div>
+
+      <button
+        type="button"
+        className="bg-orange-400 px-4 py-2"
+        onClick={seedDatabase}
+      >
+        Seed Database
+      </button>
     </div>
   );
 }
