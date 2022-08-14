@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
 import { db } from '../client';
 
 function IngredientModel(document) {
@@ -6,6 +6,11 @@ function IngredientModel(document) {
     id: document.id,
     ...document.data(),
   };
+}
+
+// Ingredient ids are made to be easily readable in Firestore console
+function ingredientNameToId(name) {
+  return name.toLowerCase().split(' ').join('_');
 }
 
 // Database interaction functions
@@ -20,10 +25,13 @@ async function getAllThen(callback) {
   callback(await getAll());
 }
 
-// Creates a new Ingredient as document in the ingredients collection
+// Creates (or updates) an Ingredient as document in the ingredients collection
 async function add(ingredientData) {
   try {
-    await addDoc(collection(db, 'ingredients'), ingredientData);
+    const ingredientId = ingredientNameToId(ingredientData.name);
+    const ingredientRef = doc(db, 'ingredients', ingredientId);
+
+    await setDoc(ingredientRef, ingredientData);
   } catch (error) {
     console.log(error);
   }
