@@ -1,78 +1,36 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-} from 'firebase/firestore';
+import { addDoc, collection, setDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../client';
+import Model from './Model';
 import { RecipeIngredients } from './RecipeIngredients';
 
-function RecipeModel(document) {
-  return {
-    id: document.id,
-    ...document.data(),
-  };
-}
-
-// Database interaction functions
-
-// Returns all documents as Recipes from recipes collection
-async function getAll() {
-  const querySnapshot = await getDocs(collection(db, 'recipes'));
-  return querySnapshot.docs.map(RecipeModel);
-}
-
-async function getAllThen(callback) {
-  callback(await getAll());
-}
-
-// Returns documents with matching ids as Recipes from recipes collection
-async function getByIds(ids) {
-  const docs = await Promise.all(
-    ids.map((id) => getDoc(doc(db, 'recipes', id)))
-  );
-
-  return docs.map(RecipeModel);
-}
-
-async function getByIdsThen(ids, callback) {
-  callback(await getByIds(ids));
-}
-
-// Creates a new Recipe as document in the recipes collection,
-// and stores its associated image in Storage as "{recipe_id}/card"
-async function add(recipeData) {
-  if (!recipeData.name || !recipeData.description || !recipeData.imageFile) {
-    throw Error('Missing recipe data, not connecting to database');
+export default class Recipe extends Model {
+  static get collectionName() {
+    return 'recipes';
   }
 
-  const { imageFile } = recipeData;
-  delete recipeData.imageFile;
+  static async add(data) {
+    if (!data.name || !data.description || !data.imageFile) {
+      throw Error('Missing recipe data, not connecting to database');
+    }
 
-  try {
-    const recipeRef = await addDoc(collection(db, 'recipes'), recipeData);
+    const { imageFile } = data;
+    delete data.imageFile;
 
-    RecipeIngredients.add(recipeRef.id, recipeData.ingredients);
+    try {
+      const recipeRef = await addDoc(collection(db, this.collectionName), data);
 
-    const storageRef = ref(storage, `${recipeRef.id}/card`);
-    await uploadBytes(storageRef, imageFile);
+      RecipeIngredients.add(recipeRef.id, data.ingredients);
 
-    await setDoc(recipeRef, {
-      ...recipeData,
-      imageURL: await getDownloadURL(storageRef),
-    });
-  } catch (error) {
-    console.log(error);
+      const storageRef = ref(storage, `${recipeRef.id}/card`);
+      await uploadBytes(storageRef, imageFile);
+
+      await setDoc(recipeRef, {
+        ...data,
+        imageURL: await getDownloadURL(storageRef),
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
-
-export const Recipe = {
-  add,
-  getAll,
-  getAllThen,
-  getByIds,
-  getByIdsThen,
-};

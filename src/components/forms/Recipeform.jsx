@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Recipe } from '../../firebase/models/Recipe';
+import Recipe from '../../firebase/models/Recipe';
 
 export default function RecipeForm({}) {
   const [name, setName] = useState('');

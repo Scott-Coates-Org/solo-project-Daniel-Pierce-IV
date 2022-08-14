@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Recipe } from '../../firebase/models/Recipe';
+import Recipe from '../../firebase/models/Recipe';
 import RecipeCard from '../RecipeCard';
 
 export default function Homepage() {
