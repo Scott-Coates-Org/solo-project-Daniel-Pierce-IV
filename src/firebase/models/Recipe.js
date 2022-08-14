@@ -1,6 +1,7 @@
 import { addDoc, collection, getDocs, setDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../client';
+import { RecipeIngredients } from './RecipeIngredients';
 
 function RecipeModel(document) {
   return {
@@ -33,6 +34,8 @@ async function add(recipeData) {
 
   try {
     const recipeRef = await addDoc(collection(db, 'recipes'), recipeData);
+
+    RecipeIngredients.add(recipeRef.id, recipeData.ingredients);
 
     const storageRef = ref(storage, `${recipeRef.id}/card`);
     await uploadBytes(storageRef, imageFile);

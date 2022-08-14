@@ -9,7 +9,7 @@ function IngredientModel(document) {
 }
 
 // Ingredient ids are made to be easily readable in Firestore console
-function ingredientNameToId(name) {
+export function ingredientNameToId(name) {
   return name.toLowerCase().split(' ').join('_');
 }
 
