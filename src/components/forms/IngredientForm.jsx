@@ -6,7 +6,7 @@ export default function IngredientForm() {
 
   function createIngredient(e) {
     e.preventDefault();
-    Ingredient.addThen({ name }, setName.bind(null, ''));
+    Ingredient.add({ name }).then(setName.bind(null, ''));
   }
 
   return (

@@ -15,10 +15,6 @@ export default class Model {
     return querySnapshot.docs.map(this.ObjectFactory);
   }
 
-  static async getAllThen(callback) {
-    callback(await this.getAll());
-  }
-
   // Returns documents with matching ids as Objects from collection
   static async getByIds(ids) {
     const docs = await Promise.all(
@@ -28,10 +24,6 @@ export default class Model {
     return docs.map(this.ObjectFactory);
   }
 
-  static async getByIdsThen(ids, callback) {
-    callback(await this.getByIds(ids));
-  }
-
   // Creates a new document in the collection
   static async add(data) {
     if (!data || Object.keys(data).length === 0) {
@@ -39,13 +31,9 @@ export default class Model {
     }
 
     try {
-      const ref = await addDoc(collection(db, this.collectionName), data);
+      return await addDoc(collection(db, this.collectionName), data);
     } catch (error) {
       console.log(error);
     }
-  }
-
-  static async addThen(data, callback) {
-    callback(await this.add(data));
   }
 }

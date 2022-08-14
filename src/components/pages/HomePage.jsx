@@ -6,7 +6,7 @@ export default function Homepage() {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    Recipe.getAllThen(setRecipes);
+    Recipe.getAll().then(setRecipes);
   }, []);
 
   return (
