@@ -1,4 +1,5 @@
 import RecipeIngredients from '../models/RecipeIngredients';
+import { recipeSeeds } from './Recipe';
 
 export async function seedRecipeIngredientsData() {
   return Promise.all(
