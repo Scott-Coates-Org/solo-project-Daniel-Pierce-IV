@@ -2,7 +2,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { db, storage } from '../client';
 
-const recipeSeeds = [
+export const recipeSeeds = [
   {
     name: 'Chicken Pad Thai',
     description:
