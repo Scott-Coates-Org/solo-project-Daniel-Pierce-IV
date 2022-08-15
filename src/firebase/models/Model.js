@@ -31,7 +31,7 @@ export default class Model {
     }
 
     try {
-      return await addDoc(collection(db, this.collectionName), data);
+      return addDoc(collection(db, this.collectionName), data);
     } catch (error) {
       console.log(error);
     }

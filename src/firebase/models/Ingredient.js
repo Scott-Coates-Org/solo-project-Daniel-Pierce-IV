@@ -19,6 +19,6 @@ export default class Ingredient extends Model {
       this.nameToId(data.name)
     );
 
-    await setDoc(ingredientRef, data);
+    return setDoc(ingredientRef, data);
   }
 }

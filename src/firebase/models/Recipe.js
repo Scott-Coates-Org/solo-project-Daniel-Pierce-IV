@@ -27,7 +27,7 @@ export default class Recipe extends Model {
       const storageRef = ref(storage, `${recipeRef.id}/card`);
       await uploadBytes(storageRef, imageFile);
 
-      await setDoc(recipeRef, {
+      return setDoc(recipeRef, {
         ...data,
         imageURL: await getDownloadURL(storageRef),
       });

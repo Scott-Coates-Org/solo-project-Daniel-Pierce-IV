@@ -83,9 +83,11 @@ export async function seedRecipeData() {
     recipeSeeds.map((recipe) => getDownloadURL(ref(storage, recipe.imagePath)))
   );
 
-  recipeSeeds.forEach((recipe, i) => {
-    delete recipe.imagePath;
-    recipe.imageURL = URLs[i];
-    setDoc(doc(db, 'recipes', recipe.name), recipe);
-  });
+  return Promise.all(
+    recipeSeeds.map((recipe, i) => {
+      delete recipe.imagePath;
+      recipe.imageURL = URLs[i];
+      return setDoc(doc(db, 'recipes', recipe.name), recipe);
+    })
+  );
 }
