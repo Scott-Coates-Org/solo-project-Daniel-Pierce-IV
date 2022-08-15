@@ -6,6 +6,7 @@ import ButtonDialog from './ButtonDialog';
 import FilterForm from './forms/FilterForm';
 import AdminPage from './pages/AdminPage';
 import Homepage from './pages/HomePage';
+import RecipePage from './pages/RecipePage';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -99,6 +100,9 @@ export default function App() {
             />
           }
         />
+        <Route path="recipes">
+          <Route path=":id" element={<RecipePage />} />
+        </Route>
         <Route
           path="/admin"
           element={<AdminPage ingredients={ingredients} />}

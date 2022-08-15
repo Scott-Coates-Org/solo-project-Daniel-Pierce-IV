@@ -15,6 +15,11 @@ export default class Model {
     return querySnapshot.docs.map(this.ObjectFactory);
   }
 
+  // Returns a single document with matching id as Object as from collection
+  static async getById(id) {
+    return getDoc(doc(db, this.collectionName, id)).then(this.ObjectFactory);
+  }
+
   // Returns documents with matching ids as Objects from collection
   static async getByIds(ids) {
     const docs = await Promise.all(

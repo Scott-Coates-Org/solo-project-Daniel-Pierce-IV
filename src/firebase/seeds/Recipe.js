@@ -77,6 +77,10 @@ function getUniqueIngredientNames() {
 
 export const ingredientNames = getUniqueIngredientNames();
 
+export function recipeNameAsId(name) {
+  return name.toLowerCase().replaceAll(' ', '-');
+}
+
 export async function seedRecipeData() {
   // images are already pre-uploaded to storage. Just get the URL
   const URLs = await Promise.all(
@@ -87,7 +91,7 @@ export async function seedRecipeData() {
     recipeSeeds.map((recipe, i) => {
       delete recipe.imagePath;
       recipe.imageURL = URLs[i];
-      return setDoc(doc(db, 'recipes', recipe.name), recipe);
+      return setDoc(doc(db, 'recipes', recipeNameAsId(recipe.name)), recipe);
     })
   );
 }
