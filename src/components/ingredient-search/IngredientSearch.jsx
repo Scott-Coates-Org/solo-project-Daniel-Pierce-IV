@@ -16,10 +16,12 @@ export default function IngredientSearch({
 
   function searchIngredients() {
     if (searchText) {
+      const ids = selectedIngredients.map((ingredient) => ingredient.id);
+
       return ingredients?.filter(
         (ingredient) =>
           ingredient.name.toLowerCase().includes(searchText.toLowerCase()) &&
-          !selectedIngredients.includes(ingredient)
+          !ids.includes(ingredient.id)
       );
     }
   }
