@@ -5,7 +5,7 @@ export default function Dialog({ onClose, children }) {
 
   return (
     <div
-      className="backdrop fixed inset-0 bg-[rgba(0,0,0,0.15)]"
+      className="backdrop fixed z-10 inset-0 bg-[rgba(0,0,0,0.15)]"
       onClick={closeDialog}
     >
       <div
