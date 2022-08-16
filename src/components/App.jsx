@@ -25,9 +25,12 @@ export default function App() {
   // Filter the recipes (as ids) to be shown to the user
   useEffect(() => {
     setRecipesToShow(
-      filterRecipes(recipeIngredients, { mustHave: mustHaveFilters })
+      filterRecipes(recipeIngredients, {
+        mustHave: mustHaveFilters,
+        cantHave: cantHaveFilters,
+      })
     );
-  }, [mustHaveFilters]);
+  }, [mustHaveFilters, cantHaveFilters]);
 
   function addToMustHaveFilters(ingredient) {
     setMustHaveFilters([...mustHaveFilters, ingredient]);
