@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Ingredient from '../firebase/models/Ingredient';
 import RecipeIngredients from '../firebase/models/RecipeIngredients';
+import filterRecipes from '../recipe-filter';
 import ButtonDialog from './ButtonDialog';
 import FilterForm from './forms/FilterForm';
 import AdminPage from './pages/AdminPage';
@@ -23,19 +24,10 @@ export default function App() {
 
   // Filter the recipes (as ids) to be shown to the user
   useEffect(() => {
-    const filteredByMustHave = recipeIngredients.filter(applyMustHaveFilters);
-    setRecipesToShow(filteredByMustHave);
-  }, [mustHaveFilters]);
-
-  // Filter out all recipes that do not include every must-have ingredient
-  function applyMustHaveFilters(recipeMapping) {
-    return (
-      mustHaveFilters.length === 0 ||
-      mustHaveFilters.every((filter) =>
-        recipeMapping.ingredientIds.includes(filter.id)
-      )
+    setRecipesToShow(
+      filterRecipes(recipeIngredients, { mustHave: mustHaveFilters })
     );
-  }
+  }, [mustHaveFilters]);
 
   function addToMustHaveFilters(ingredient) {
     setMustHaveFilters([...mustHaveFilters, ingredient]);
