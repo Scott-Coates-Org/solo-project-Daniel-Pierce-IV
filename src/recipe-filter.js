@@ -12,7 +12,16 @@ function applyCantHaveFilters(cantHaveFilters, recipeMapping) {
   );
 }
 
-export default function filterRecipes(recipeMappings, { mustHave, cantHave }) {
+// Filter out all recipes that that arent a subset of can-have ingredients
+function applyCanHaveFilters(canHaveFilters, recipeMapping) {
+  const ids = canHaveFilters.map((filter) => filter.id);
+  return recipeMapping.ingredientIds.every((id) => ids.includes(id));
+}
+
+export default function filterRecipes(
+  recipeMappings,
+  { mustHave, cantHave, canHave }
+) {
   let filteredRecipes = recipeMappings.slice();
 
   // All valid recipes must contain every must-have ingredient
@@ -26,6 +35,15 @@ export default function filterRecipes(recipeMappings, { mustHave, cantHave }) {
   if (cantHave.length > 0) {
     filteredRecipes = filteredRecipes.filter(
       applyCantHaveFilters.bind(null, cantHave)
+    );
+  }
+
+  // All valid recipes must only contain ingredients from the
+  // can-have / must-have ingredients
+  // NOTE: Assumes no can-haves means user wants all recipes
+  if (canHave.length > 0) {
+    filteredRecipes = filteredRecipes.filter(
+      applyCanHaveFilters.bind(null, canHave.concat(mustHave))
     );
   }
 

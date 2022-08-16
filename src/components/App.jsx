@@ -28,9 +28,10 @@ export default function App() {
       filterRecipes(recipeIngredients, {
         mustHave: mustHaveFilters,
         cantHave: cantHaveFilters,
+        canHave: canHaveFilters,
       })
     );
-  }, [mustHaveFilters, cantHaveFilters]);
+  }, [mustHaveFilters, cantHaveFilters, canHaveFilters]);
 
   function addToMustHaveFilters(ingredient) {
     setMustHaveFilters([...mustHaveFilters, ingredient]);
