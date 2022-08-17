@@ -10,7 +10,7 @@ import AdminPage from './pages/AdminPage';
 import Homepage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import SignupForm from './forms/auth/SignupForm';
+import SigninForm from './forms/auth/SigninForm';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -100,7 +100,7 @@ export default function App() {
         </button>
       ) : (
         <ButtonDialog className="px-2 text-xl bg-blue-300" content={'Sign in'}>
-          <SignupForm />
+          <SigninForm />
         </ButtonDialog>
       )}
 
