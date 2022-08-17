@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import {
   useCreateUserWithEmailAndPassword,
   useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
 } from 'react-firebase-hooks/auth';
 import { auth } from '../../../firebase/client';
 
@@ -19,16 +21,18 @@ export default function SigninForm({}) {
   ] = useCreateUserWithEmailAndPassword(auth);
   const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] =
     useSignInWithEmailAndPassword(auth);
+  const [signInWithGoogle, googleUser, googleLoading, googleError] =
+    useSignInWithGoogle(auth);
 
-  function attemptSignIn(event) {
+  async function attemptSignIn(event) {
     event.preventDefault();
 
     if (validateForm()) {
       if (isSignUp) {
         // TODO .then() cl reate user doc in users collection in Firestore
-        createUserWithEmailAndPassword(email, password);
+        await createUserWithEmailAndPassword(email, password);
       } else {
-        signInWithEmailAndPassword(email, password);
+        await signInWithEmailAndPassword(email, password);
       }
     }
   }
@@ -63,6 +67,28 @@ export default function SigninForm({}) {
     }
 
     return errors.length === 0;
+  }
+
+  useEffect(displayFirebaseErrors, [signUpError, signInError, googleError]);
+
+  function displayFirebaseErrors() {
+    let errors = [];
+
+    if (signUpError) errors.push(signUpError.message);
+    if (signInError) errors.push(signInError.message);
+    if (googleError) errors.push(googleError.message);
+
+    // Remove vendor messaging and improve formatting
+    errors = errors.map((error) => {
+      let newError = error
+        .replace('Firebase: Error (auth/', '')
+        .replace(').', '')
+        .replaceAll('-', ' ');
+
+      return newError[0].toUpperCase() + newError.slice(1);
+    });
+
+    setErrorMessages(errorMessages ? errorMessages.concat(errors) : errors);
   }
 
   return (
@@ -137,6 +163,12 @@ export default function SigninForm({}) {
           </button>
         </div>
       </form>
+
+      <div className="flex flex-col gap-2 items-center border-t-2 border-black pt-2">
+        <button className="bg-gray-300 px-3" onClick={() => signInWithGoogle()}>
+          Sign In with Google
+        </button>
+      </div>
     </div>
   );
 }
