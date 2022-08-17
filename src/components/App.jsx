@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { auth } from '../firebase/client';
 import Ingredient from '../firebase/models/Ingredient';
 import RecipeIngredients from '../firebase/models/RecipeIngredients';
 import filterRecipes from '../recipe-filter';
@@ -8,6 +9,8 @@ import FilterForm from './forms/FilterForm';
 import AdminPage from './pages/AdminPage';
 import Homepage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import SignupForm from './forms/auth/SignupForm';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -16,6 +19,7 @@ export default function App() {
   const [mustHaveFilters, setMustHaveFilters] = useState([]);
   const [canHaveFilters, setCanHaveFilters] = useState([]);
   const [cantHaveFilters, setCantHaveFilters] = useState([]);
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     Ingredient.getAll().then(setIngredients);
@@ -85,6 +89,20 @@ export default function App() {
           onCantHaveRemove={removeFromCantHaveFilters}
         />
       </ButtonDialog>
+
+      {user ? (
+        <button
+          type="button"
+          className="px-2 text-xl bg-blue-300"
+          onClick={() => auth.signOut()}
+        >
+          Sign out
+        </button>
+      ) : (
+        <ButtonDialog className="px-2 text-xl bg-blue-300" content={'Sign in'}>
+          <SignupForm />
+        </ButtonDialog>
+      )}
 
       <Routes>
         <Route
