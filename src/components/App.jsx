@@ -90,6 +90,10 @@ export default function App() {
         />
       </ButtonDialog>
 
+      {user && (
+        <span>Hello {user.displayName ? user.displayName : user.email}</span>
+      )}
+
       {user ? (
         <button
           type="button"

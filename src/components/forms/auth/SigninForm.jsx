@@ -1,25 +1,35 @@
 import { useState } from 'react';
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import {
+  useCreateUserWithEmailAndPassword,
+  useSignInWithEmailAndPassword,
+} from 'react-firebase-hooks/auth';
 import { auth } from '../../../firebase/client';
 
 export default function SigninForm({}) {
+  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [errorMessages, setErrorMessages] = useState(null);
-  const [createUserWithEmailAndPassword, error] =
-    useCreateUserWithEmailAndPassword(auth);
+  const [
+    createUserWithEmailAndPassword,
+    signUpUser,
+    signUpLoading,
+    signUpError,
+  ] = useCreateUserWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword, signInUser, signInLoading, signInError] =
+    useSignInWithEmailAndPassword(auth);
 
-  if (error) {
-    console.log(error);
-  }
-
-  function attemptSignup(event) {
+  function attemptSignIn(event) {
     event.preventDefault();
 
     if (validateForm()) {
-      // TODO .then() create user doc in users collection in Firestore
-      createUserWithEmailAndPassword(email, password);
+      if (isSignUp) {
+        // TODO .then() cl reate user doc in users collection in Firestore
+        createUserWithEmailAndPassword(email, password);
+      } else {
+        signInWithEmailAndPassword(email, password);
+      }
     }
   }
 
@@ -33,15 +43,17 @@ export default function SigninForm({}) {
     }
 
     if (!password) {
-      errors.push('Please enter a password');
-    } else if (password.length < 6) {
-      // Password length dictated by Firebase
-      // https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#createuserwithemailandpassword
-      errors.push('Password must be at least 6 characters');
-    } else if (!passwordConfirm) {
-      errors.push('Please confirm your password');
-    } else if (password !== passwordConfirm) {
-      errors.push('The passwords you entered do not match');
+      errors.push(`Please enter ${isSignUp ? 'a' : 'your'} password`);
+    } else if (isSignUp) {
+      if (password.length < 6) {
+        // Password length dictated by Firebase
+        // https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#createuserwithemailandpassword
+        errors.push('Password must be at least 6 characters');
+      } else if (!passwordConfirm) {
+        errors.push('Please confirm your password');
+      } else if (password !== passwordConfirm) {
+        errors.push('The passwords you entered do not match');
+      }
     }
 
     if (errors.length === 0) {
@@ -58,9 +70,11 @@ export default function SigninForm({}) {
       <form
         action=""
         className="signup p-2 flex flex-col gap-2"
-        onSubmit={attemptSignup}
+        onSubmit={attemptSignIn}
       >
-        <h2 className="text-2xl">Sign up</h2>
+        <h2 className="text-2xl text-center">
+          {isSignUp ? 'Sign Up' : 'Sign In'}
+        </h2>
 
         {errorMessages?.map((error) => (
           <span key={error} className="text-red-800 text-sm">
@@ -94,20 +108,34 @@ export default function SigninForm({}) {
           />
         </div>
 
-        <div className="flex flex-col">
-          <label className="text-sm" htmlFor="password-confirm">
-            Password confirm
-          </label>
+        {isSignUp && (
+          <div className="flex flex-col">
+            <label className="text-sm" htmlFor="password-confirm">
+              Password confirm
+            </label>
 
-          <input
-            type="password"
-            id="password-confirm"
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-          />
+            <input
+              type="password"
+              id="password-confirm"
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
+            />
+          </div>
+        )}
+
+        <div className="flex gap-3">
+          <button
+            className="grow hover:bg-[rgba(255,255,255,0.3)]"
+            type="button"
+            onClick={() => setIsSignUp(!isSignUp)}
+          >
+            {isSignUp ? 'Sign In' : 'Sign Up'}
+          </button>
+
+          <button className="bg-green-500 grow">
+            {isSignUp ? 'Sign Up' : 'Sign In'}
+          </button>
         </div>
-
-        <button className="bg-green-500">Sign Up</button>
       </form>
     </div>
   );
