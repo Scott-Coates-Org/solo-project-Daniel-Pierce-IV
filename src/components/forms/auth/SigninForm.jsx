@@ -4,10 +4,9 @@ import {
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from 'react-firebase-hooks/auth';
-import { Link } from 'react-router-dom';
 import { auth } from '../../../firebase/client';
 
-export default function SigninForm({}) {
+export default function SigninForm({ onSignUp }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessages, setErrorMessages] = useState(null);
@@ -113,12 +112,13 @@ export default function SigninForm({}) {
         </div>
 
         <div className="flex gap-3">
-          <Link
+          <button
+            type="button"
             className="grow text-center hover:bg-[rgba(255,255,255,0.3)]"
-            to={'/signup'}
+            onClick={onSignUp}
           >
             Sign up
-          </Link>
+          </button>
 
           <button className="bg-green-500 grow">Sign in</button>
         </div>
