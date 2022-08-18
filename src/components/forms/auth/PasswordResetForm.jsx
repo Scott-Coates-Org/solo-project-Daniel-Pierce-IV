@@ -1,25 +1,19 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
-import {
-  useSignInWithEmailAndPassword,
-  useSignInWithGoogle,
-} from 'react-firebase-hooks/auth';
+import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { auth } from '../../../firebase/client';
 
-export default function SigninForm({ onResetPassword, onSignUp }) {
+export default function PasswordResetForm({ onSignIn }) {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [errorMessages, setErrorMessages] = useState(null);
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
-  const [signInWithGoogle, googleUser, googleLoading, googleError] =
-    useSignInWithGoogle(auth);
+  const [sendPasswordResetEmail, sending, error] =
+    useSendPasswordResetEmail(auth);
 
-  function attemptSignIn(event) {
+  function attemptPasswordReset(event) {
     event.preventDefault();
 
     if (validateForm()) {
-      signInWithEmailAndPassword(email, password);
+      sendPasswordResetEmail(email);
     }
   }
 
@@ -32,14 +26,6 @@ export default function SigninForm({ onResetPassword, onSignUp }) {
       errors.push('Please enter your email');
     }
 
-    if (!password) {
-      errors.push('Please enter your password');
-    } else if (password.length < 6) {
-      // Password length dictated by Firebase
-      // https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#createuserwithemailandpassword
-      errors.push('Password must be at least 6 characters');
-    }
-
     if (errors.length === 0) {
       setErrorMessages(null);
     } else {
@@ -49,13 +35,12 @@ export default function SigninForm({ onResetPassword, onSignUp }) {
     return errors.length === 0;
   }
 
-  useEffect(displayFirebaseErrors, [error, googleError]);
+  useEffect(displayFirebaseErrors, [error]);
 
   function displayFirebaseErrors() {
     let errors = [];
 
     if (error) errors.push(error.message);
-    if (googleError) errors.push(googleError.message);
 
     // Remove vendor messaging and improve formatting
     errors = errors.map((error) => {
@@ -75,9 +60,9 @@ export default function SigninForm({ onResetPassword, onSignUp }) {
       <form
         action=""
         className="signup p-2 flex flex-col gap-2"
-        onSubmit={attemptSignIn}
+        onSubmit={attemptPasswordReset}
       >
-        <h2 className="text-2xl text-center">Sign In</h2>
+        <h2 className="text-2xl text-center">Reset Password</h2>
 
         {errorMessages?.map((error) => (
           <span key={error} className="text-red-800 text-sm">
@@ -98,45 +83,18 @@ export default function SigninForm({ onResetPassword, onSignUp }) {
           />
         </div>
 
-        <div className="flex flex-col">
-          <label className="text-sm" htmlFor="password">
-            Password
-          </label>
-
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button
-          onClick={onResetPassword}
-          type="button"
-          className="self-start hover:bg-[rgba(255,255,255,0.3)] hover:underline px-2"
-        >
-          Forgot password?
-        </button>
-
         <div className="flex gap-3">
           <button
             type="button"
             className="grow text-center hover:bg-[rgba(255,255,255,0.3)]"
-            onClick={onSignUp}
+            onClick={onSignIn}
           >
-            Sign up
+            Back
           </button>
 
-          <button className="bg-green-500 grow">Sign in</button>
+          <button className="bg-green-500 grow">Reset password</button>
         </div>
       </form>
-
-      <div className="flex flex-col gap-2 items-center border-t-2 border-black pt-2">
-        <button className="bg-gray-300 px-3" onClick={() => signInWithGoogle()}>
-          Sign in with Google
-        </button>
-      </div>
     </div>
   );
 }

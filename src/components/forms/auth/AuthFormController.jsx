@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import PasswordResetForm from './PasswordResetForm';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
 
 const SIGN_IN = 'signin';
 const SIGN_UP = 'signup';
+const RESET = 'reset';
 
 export default function AuthFormController() {
   const [formType, setFormType] = useState('signin');
@@ -16,9 +18,28 @@ export default function AuthFormController() {
     setFormType(SIGN_IN);
   }
 
-  let form = <SigninForm onSignUp={showSignUpForm} />;
+  function showPasswordResetForm() {
+    setFormType(RESET);
+  }
 
-  if (formType === SIGN_UP) form = <SignupForm onSignIn={showSignInForm} />;
+  let form;
+
+  switch (formType) {
+    case SIGN_IN:
+      form = (
+        <SigninForm
+          onResetPassword={showPasswordResetForm}
+          onSignUp={showSignUpForm}
+        />
+      );
+      break;
+    case SIGN_UP:
+      form = <SignupForm onSignIn={showSignInForm} />;
+      break;
+    case RESET:
+      form = <PasswordResetForm onSignIn={showSignInForm} />;
+      break;
+  }
 
   return form;
 }
