@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase/client';
 import Ingredient from '../firebase/models/Ingredient';
 import RecipeIngredients from '../firebase/models/RecipeIngredients';
@@ -11,6 +11,8 @@ import Homepage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import SigninForm from './forms/auth/SigninForm';
+import SignupForm from './forms/auth/SignupForm';
+import Dialog from './Dialog';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -20,6 +22,7 @@ export default function App() {
   const [canHaveFilters, setCanHaveFilters] = useState([]);
   const [cantHaveFilters, setCantHaveFilters] = useState([]);
   const [user] = useAuthState(auth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     Ingredient.getAll().then(setIngredients);
@@ -74,7 +77,7 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
+    <div>
       <ButtonDialog className="px-2 text-xl bg-yellow-300" content="Filters">
         <FilterForm
           ingredients={ingredients}
@@ -125,7 +128,15 @@ export default function App() {
           path="/admin"
           element={<AdminPage ingredients={ingredients} />}
         />
+        <Route
+          path="/signup"
+          element={
+            <Dialog onClose={() => navigate(-1)}>
+              <SignupForm />
+            </Dialog>
+          }
+        />
       </Routes>
-    </BrowserRouter>
+    </div>
   );
 }

@@ -1,26 +1,27 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import {
-  useSignInWithEmailAndPassword,
+  useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
 } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
 import { auth } from '../../../firebase/client';
 
-export default function SigninForm({}) {
+export default function SignupForm({}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [errorMessages, setErrorMessages] = useState(null);
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
   const [signInWithGoogle, googleUser, googleLoading, googleError] =
     useSignInWithGoogle(auth);
 
-  function attemptSignIn(event) {
+  function attemptSignUp(event) {
     event.preventDefault();
 
     if (validateForm()) {
-      signInWithEmailAndPassword(email, password);
+      createUserWithEmailAndPassword(email, password);
     }
   }
 
@@ -34,11 +35,15 @@ export default function SigninForm({}) {
     }
 
     if (!password) {
-      errors.push('Please enter your password');
+      errors.push('Please enter a password');
     } else if (password.length < 6) {
       // Password length dictated by Firebase
       // https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#createuserwithemailandpassword
       errors.push('Password must be at least 6 characters');
+    } else if (!passwordConfirm) {
+      errors.push('Please confirm your password');
+    } else if (password !== passwordConfirm) {
+      errors.push('The passwords you entered do not match');
     }
 
     if (errors.length === 0) {
@@ -76,9 +81,9 @@ export default function SigninForm({}) {
       <form
         action=""
         className="signup p-2 flex flex-col gap-2"
-        onSubmit={attemptSignIn}
+        onSubmit={attemptSignUp}
       >
-        <h2 className="text-2xl text-center">Sign In</h2>
+        <h2 className="text-2xl text-center">Sign Up</h2>
 
         {errorMessages?.map((error) => (
           <span key={error} className="text-red-800 text-sm">
@@ -112,21 +117,34 @@ export default function SigninForm({}) {
           />
         </div>
 
+        <div className="flex flex-col">
+          <label className="text-sm" htmlFor="password-confirm">
+            Password confirm
+          </label>
+
+          <input
+            type="password"
+            id="password-confirm"
+            value={passwordConfirm}
+            onChange={(e) => setPasswordConfirm(e.target.value)}
+          />
+        </div>
+
         <div className="flex gap-3">
           <Link
             className="grow text-center hover:bg-[rgba(255,255,255,0.3)]"
-            to={'/signup'}
+            to={'signin'}
           >
-            Sign up
+            Sign in
           </Link>
 
-          <button className="bg-green-500 grow">Sign in</button>
+          <button className="bg-green-500 grow">Sign up</button>
         </div>
       </form>
 
       <div className="flex flex-col gap-2 items-center border-t-2 border-black pt-2">
         <button className="bg-gray-300 px-3" onClick={() => signInWithGoogle()}>
-          Sign in with Google
+          Sign up with Google
         </button>
       </div>
     </div>
