@@ -20,6 +20,15 @@ export default function App() {
   const [canHaveFilters, setCanHaveFilters] = useState([]);
   const [cantHaveFilters, setCantHaveFilters] = useState([]);
   const [user] = useAuthState(auth);
+  const [favoritedRecipes, setFavoritedRecipes] = useState([
+    {
+      id: 'butter-chicken',
+      name: 'Butter Chicken',
+      imageURL:
+        'https://firebasestorage.googleapis.com/v0/b/ultimate-recipe-finder.appspot.com/o/butter-chicken%2Fcard.jpg?alt=media&token=e1553ea2-3753-43a5-af0a-02e45976a7fa',
+      description: 'Filled with chicken and sauuuuuuuce',
+    },
+  ]);
 
   useEffect(() => {
     Ingredient.getAll().then(setIngredients);
@@ -73,6 +82,17 @@ export default function App() {
     );
   }
 
+  function addToFavoriteRecipes({ id, name, description, imageURL }) {
+    setFavoritedRecipes([
+      ...favoritedRecipes,
+      { id, name, description, imageURL },
+    ]);
+  }
+
+  function removeFromFavoriteRecipes({ id }) {
+    setFavoritedRecipes(favoritedRecipes.filter((recipe) => recipe.id !== id));
+  }
+
   return (
     <div>
       <ButtonDialog className="px-2 text-xl bg-yellow-300" content="Filters">
@@ -119,7 +139,16 @@ export default function App() {
           }
         />
         <Route path="recipes">
-          <Route path=":id" element={<RecipePage />} />
+          <Route
+            path=":id"
+            element={
+              <RecipePage
+                favoriteRecipeIds={favoritedRecipes.map((recipe) => recipe.id)}
+                onFavorite={addToFavoriteRecipes}
+                onUnfavorite={removeFromFavoriteRecipes}
+              />
+            }
+          />
         </Route>
         <Route
           path="/admin"

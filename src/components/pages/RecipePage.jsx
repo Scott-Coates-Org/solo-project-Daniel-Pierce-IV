@@ -1,14 +1,31 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Recipe from '../../firebase/models/Recipe';
+import FavoriteButton from '../FavoriteButton';
 
-export default function RecipePage() {
+export default function RecipePage({
+  favoriteRecipeIds,
+  onFavorite,
+  onUnfavorite,
+}) {
   const [recipe, setRecipe] = useState();
   const { id } = useParams();
 
   useEffect(() => {
     Recipe.getById(id).then(setRecipe);
   }, []);
+
+  function getFavoritedStatus() {
+    return favoriteRecipeIds.includes(id);
+  }
+
+  function toggleFavoritedStatus() {
+    if (getFavoritedStatus()) {
+      onUnfavorite(recipe);
+    } else {
+      onFavorite(recipe);
+    }
+  }
 
   return (
     recipe && (
@@ -21,9 +38,14 @@ export default function RecipePage() {
               alt={`Picture of ${recipe.name}`}
             />
 
-            <h1 className="absolute left-0 right-0 bg-[rgba(0,0,0,0.7)] text-6xl text-white py-2">
-              {recipe.name}
-            </h1>
+            <div className="flex justify-between absolute left-0 right-0 bg-[rgba(0,0,0,0.7)] p-2">
+              <h1 className="text-6xl text-white ">{recipe.name}</h1>
+
+              <FavoriteButton
+                isFavorited={getFavoritedStatus()}
+                onClick={toggleFavoritedStatus}
+              />
+            </div>
           </div>
 
           <div className="text-4xl border-b-2 border-black pb-1 mb-2">
