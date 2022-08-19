@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import { auth } from '../firebase/client';
 import Ingredient from '../firebase/models/Ingredient';
 import RecipeIngredients from '../firebase/models/RecipeIngredients';
@@ -105,38 +105,60 @@ export default function App() {
 
   return (
     <div>
-      <ButtonDialog className="px-2 text-xl bg-yellow-300" content="Filters">
-        <FilterForm
-          ingredients={ingredients}
-          mustHaveFilters={mustHaveFilters}
-          canHaveFilters={canHaveFilters}
-          cantHaveFilters={cantHaveFilters}
-          onMustHaveSelect={addToMustHaveFilters}
-          onMustHaveRemove={removeFromMustHaveFilters}
-          onCanHaveSelect={addToCanHaveFilters}
-          onCanHaveRemove={removeFromCanHaveFilters}
-          onCantHaveSelect={addToCantHaveFilters}
-          onCantHaveRemove={removeFromCantHaveFilters}
-        />
-      </ButtonDialog>
+      <div className="flex justify-between">
+        <div className="flex gap-5">
+          <Link to="" className="px-2 text-xl bg-green-400">
+            Home
+          </Link>
 
-      {user && (
-        <span>Hello {user.displayName ? user.displayName : user.email}</span>
-      )}
+          <Link to="favorites" className="px-2 text-xl bg-red-400">
+            Favorites
+          </Link>
 
-      {user ? (
-        <button
-          type="button"
-          className="px-2 text-xl bg-blue-300"
-          onClick={() => auth.signOut()}
-        >
-          Sign out
-        </button>
-      ) : (
-        <ButtonDialog className="px-2 text-xl bg-blue-300" content={'Sign in'}>
-          <AuthFormController />
-        </ButtonDialog>
-      )}
+          <ButtonDialog
+            className="px-2 text-xl bg-yellow-300"
+            content="Filters"
+          >
+            <FilterForm
+              ingredients={ingredients}
+              mustHaveFilters={mustHaveFilters}
+              canHaveFilters={canHaveFilters}
+              cantHaveFilters={cantHaveFilters}
+              onMustHaveSelect={addToMustHaveFilters}
+              onMustHaveRemove={removeFromMustHaveFilters}
+              onCanHaveSelect={addToCanHaveFilters}
+              onCanHaveRemove={removeFromCanHaveFilters}
+              onCantHaveSelect={addToCantHaveFilters}
+              onCantHaveRemove={removeFromCantHaveFilters}
+            />
+          </ButtonDialog>
+        </div>
+
+        <div className="flex gap-5 items-center">
+          {user && (
+            <span>
+              Hello {user.displayName ? user.displayName : user.email}
+            </span>
+          )}
+
+          {user ? (
+            <button
+              type="button"
+              className="px-2 text-xl bg-blue-300"
+              onClick={() => auth.signOut()}
+            >
+              Sign out
+            </button>
+          ) : (
+            <ButtonDialog
+              className="px-2 text-xl bg-blue-300"
+              content={'Sign in'}
+            >
+              <AuthFormController />
+            </ButtonDialog>
+          )}
+        </div>
+      </div>
 
       <Routes>
         <Route
