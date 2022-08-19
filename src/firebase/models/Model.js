@@ -1,4 +1,11 @@
-import { addDoc, collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from 'firebase/firestore';
 import { db } from '../client';
 
 export default class Model {
@@ -37,6 +44,21 @@ export default class Model {
 
     try {
       return addDoc(collection(db, this.collectionName), data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Updates (or creates) a document in the collection
+  static async set({ id, ...data }) {
+    if (!id || Object.keys(data).length === 0) {
+      throw Error('Missing data, not connecting to database');
+    }
+
+    const docRef = doc(db, this.collectionName, id);
+
+    try {
+      return setDoc(docRef, data);
     } catch (error) {
       console.log(error);
     }

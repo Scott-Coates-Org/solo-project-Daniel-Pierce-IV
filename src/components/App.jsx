@@ -11,6 +11,7 @@ import Homepage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import AuthFormController from './forms/auth/AuthFormController';
+import Favorite from '../firebase/models/Favorite';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -20,20 +21,20 @@ export default function App() {
   const [canHaveFilters, setCanHaveFilters] = useState([]);
   const [cantHaveFilters, setCantHaveFilters] = useState([]);
   const [user] = useAuthState(auth);
-  const [favoritedRecipes, setFavoritedRecipes] = useState([
-    {
-      id: 'butter-chicken',
-      name: 'Butter Chicken',
-      imageURL:
-        'https://firebasestorage.googleapis.com/v0/b/ultimate-recipe-finder.appspot.com/o/butter-chicken%2Fcard.jpg?alt=media&token=e1553ea2-3753-43a5-af0a-02e45976a7fa',
-      description: 'Filled with chicken and sauuuuuuuce',
-    },
-  ]);
+  const [favorite, setFavorite] = useState();
 
   useEffect(() => {
     Ingredient.getAll().then(setIngredients);
     RecipeIngredients.getAll().then(setRecipeIngredients);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      Favorite.getByCurrentUser().then(setFavorite);
+    } else {
+      setFavorite(null);
+    }
+  }, [user]);
 
   // Filter the recipes (as ids) to be shown to the user
   useEffect(() => {
@@ -83,14 +84,22 @@ export default function App() {
   }
 
   function addToFavoriteRecipes({ id, name, description, imageURL }) {
-    setFavoritedRecipes([
-      ...favoritedRecipes,
-      { id, name, description, imageURL },
-    ]);
+    updateFavorite({
+      ...favorite,
+      recipes: [...favorite.recipes, { id, name, description, imageURL }],
+    });
   }
 
   function removeFromFavoriteRecipes({ id }) {
-    setFavoritedRecipes(favoritedRecipes.filter((recipe) => recipe.id !== id));
+    updateFavorite({
+      ...favorite,
+      recipes: favorite.recipes.filter((recipe) => recipe.id !== id),
+    });
+  }
+
+  function updateFavorite(newFavorite) {
+    Favorite.set(newFavorite);
+    setFavorite(newFavorite);
   }
 
   return (
@@ -143,7 +152,9 @@ export default function App() {
             path=":id"
             element={
               <RecipePage
-                favoriteRecipeIds={favoritedRecipes.map((recipe) => recipe.id)}
+                favoriteRecipeIds={
+                  favorite?.recipes.map((recipe) => recipe.id) ?? []
+                }
                 onFavorite={addToFavoriteRecipes}
                 onUnfavorite={removeFromFavoriteRecipes}
               />
