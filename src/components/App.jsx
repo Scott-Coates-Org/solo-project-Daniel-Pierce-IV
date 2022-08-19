@@ -12,6 +12,7 @@ import RecipePage from './pages/RecipePage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import AuthFormController from './forms/auth/AuthFormController';
 import Favorite from '../firebase/models/Favorite';
+import FavoritesPage from './pages/FavoritesPage';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -147,6 +148,7 @@ export default function App() {
             />
           }
         />
+
         <Route path="recipes">
           <Route
             path=":id"
@@ -161,6 +163,12 @@ export default function App() {
             }
           />
         </Route>
+
+        <Route
+          path="favorites"
+          element={<FavoritesPage recipes={favorite?.recipes} />}
+        />
+
         <Route
           path="/admin"
           element={<AdminPage ingredients={ingredients} />}
