@@ -4,6 +4,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'recipe-red': '#f83e55',
+        'recipe-gray': '#18171C',
+        'recipe-gray-dark': '#111015',
         'recipe-gray-light': '#22222A',
         'recipe-gray-lighter': '#32323A',
       },

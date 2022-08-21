@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --recipe-red: #f83e55;
+  --recipe-gray-light: #22222a;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.main-scrollbar::-webkit-scrollbar-track {
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+  /* border-radius: 10px; */
+  background-color: var(--recipe-gray-light);
+}
+
+.main-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.main-scrollbar::-webkit-scrollbar-thumb {
+  /* border-radius: 10px; */
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
+  background-color: var(--recipe-red);
+}

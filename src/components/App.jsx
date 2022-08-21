@@ -104,8 +104,8 @@ export default function App() {
   }
 
   return (
-    <div>
-      <div className="flex justify-between">
+    <div className="grid grid-cols-[300px,1fr] grid-rows-[60px,1fr] bg-recipe-gray h-full">
+      <div className="flex justify-between col-span-2">
         <div className="flex gap-5">
           <Link to="" className="px-2 text-xl bg-green-400">
             Home
@@ -160,42 +160,46 @@ export default function App() {
         </div>
       </div>
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Homepage
-              recipesToShow={recipesToShow}
-              isFiltered={hasActiveFilters()}
+      <div className="size-container relative bg-recipe-gray-dark rounded-tl-[60px] col-span-2">
+        <main className="main-scrollbar absolute inset-0 inset-x-28 overflow-y-auto">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Homepage
+                  recipesToShow={recipesToShow}
+                  isFiltered={hasActiveFilters()}
+                />
+              }
             />
-          }
-        />
 
-        <Route path="recipes">
-          <Route
-            path=":id"
-            element={
-              <RecipePage
-                favoriteRecipeIds={
-                  favorite?.recipes.map((recipe) => recipe.id) ?? []
+            <Route path="recipes">
+              <Route
+                path=":id"
+                element={
+                  <RecipePage
+                    favoriteRecipeIds={
+                      favorite?.recipes.map((recipe) => recipe.id) ?? []
+                    }
+                    onFavorite={addToFavoriteRecipes}
+                    onUnfavorite={removeFromFavoriteRecipes}
+                  />
                 }
-                onFavorite={addToFavoriteRecipes}
-                onUnfavorite={removeFromFavoriteRecipes}
               />
-            }
-          />
-        </Route>
+            </Route>
 
-        <Route
-          path="favorites"
-          element={<FavoritesPage recipes={favorite?.recipes} />}
-        />
+            <Route
+              path="favorites"
+              element={<FavoritesPage recipes={favorite?.recipes} />}
+            />
 
-        <Route
-          path="/admin"
-          element={<AdminPage ingredients={ingredients} />}
-        />
-      </Routes>
+            <Route
+              path="/admin"
+              element={<AdminPage ingredients={ingredients} />}
+            />
+          </Routes>
+        </main>
+      </div>
     </div>
   );
 }
