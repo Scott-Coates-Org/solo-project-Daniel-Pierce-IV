@@ -11,7 +11,7 @@ export default function RecipeCard({
       {/* adjust image-to-card-background ratio with margin */}
       <div className="flex justify-center mx-2">
         <img
-          className="relative w-1/2 aspect-square rounded-full scale-[200%] transition-transform -translate-y-1/2 group-hover:-translate-y-2/3"
+          className="relative w-1/2 aspect-square rounded-full transition-all scale-[200%] -translate-y-1/2 group-hover:-translate-y-2/3 outline outline-2 outline-transparent outline-offset-2 group-hover:outline-recipe-green group-hover:bg-recipe-green"
           src={imageURL}
           alt={`Image of ${name}`}
         />
