@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { auth } from '../firebase/client';
 import Ingredient from '../firebase/models/Ingredient';
 import RecipeIngredients from '../firebase/models/RecipeIngredients';
@@ -10,9 +10,9 @@ import AdminPage from './pages/AdminPage';
 import Homepage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import AuthFormController from './forms/auth/AuthFormController';
 import Favorite from '../firebase/models/Favorite';
 import FavoritesPage from './pages/FavoritesPage';
+import Navbar from './nav/Navbar';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -105,16 +105,8 @@ export default function App() {
 
   return (
     <div className="grid grid-cols-[300px,1fr] grid-rows-[60px,1fr] bg-recipe-gray h-full">
-      <div className="flex justify-between col-span-2">
+      <div className="flex justify-between">
         <div className="flex gap-5">
-          <Link to="" className="px-2 text-xl bg-green-400">
-            Home
-          </Link>
-
-          <Link to="favorites" className="px-2 text-xl bg-red-400">
-            Favorites
-          </Link>
-
           <ButtonDialog
             className="px-2 text-xl bg-yellow-300"
             content="Filters"
@@ -133,35 +125,14 @@ export default function App() {
             />
           </ButtonDialog>
         </div>
-
-        <div className="flex gap-5 items-center">
-          {user && (
-            <span>
-              Hello {user.displayName ? user.displayName : user.email}
-            </span>
-          )}
-
-          {user ? (
-            <button
-              type="button"
-              className="px-2 text-xl bg-blue-300"
-              onClick={() => auth.signOut()}
-            >
-              Sign out
-            </button>
-          ) : (
-            <ButtonDialog
-              className="px-2 text-xl bg-blue-300"
-              content={'Sign in'}
-            >
-              <AuthFormController />
-            </ButtonDialog>
-          )}
-        </div>
       </div>
 
-      <div className="size-container relative bg-recipe-gray-dark rounded-tl-[60px] col-span-2">
-        <main className="main-scrollbar absolute inset-0 inset-x-28 overflow-y-auto">
+      <Navbar />
+
+      <div className="sidebar-placeholder"></div>
+
+      <div className="size-container relative bg-recipe-gray-dark rounded-tl-[60px]">
+        <main className="main-scrollbar absolute inset-0 left-28 overflow-y-auto">
           <Routes>
             <Route
               path="/"
