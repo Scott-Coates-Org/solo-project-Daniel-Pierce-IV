@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Recipe from '../../firebase/models/Recipe';
 import FavoriteButton from '../FavoriteButton';
+import RecipeIngredientInfo from '../RecipeIngredientInfo';
+import RecipeInstructionInfo from '../RecipeInstructionInfo';
+import RecipeTimeInfo from '../RecipeTimeInfo';
 
 export default function RecipePage({
   favoriteRecipeIds,
@@ -29,16 +32,17 @@ export default function RecipePage({
 
   return (
     recipe && (
-      <div className="flex p-12">
-        <div className="flex flex-col">
-          <div className="flex relative">
-            <img
-              className="aspect-video"
-              src={recipe.imageURL}
-              alt={`Picture of ${recipe.name}`}
+      <div className="flex flex-col gap-8">
+        <div className="flex gap-8">
+          <div className="grow relative">
+            <div
+              style={{
+                backgroundImage: `url(${recipe.imageURL})`,
+              }}
+              className="image brightness-50 w-full h-[50vh] rounded-[5rem] bg-cover bg-center"
             />
 
-            <div className="flex justify-between absolute left-0 right-0 bg-[rgba(0,0,0,0.7)] p-2">
+            <div className="flex justify-between absolute inset-x-10 top-10">
               <h1 className="text-6xl text-white ">{recipe.name}</h1>
 
               <FavoriteButton
@@ -46,34 +50,14 @@ export default function RecipePage({
                 onClick={toggleFavoritedStatus}
               />
             </div>
+
+            <RecipeTimeInfo className="absolute right-0 bottom-[30%]" />
           </div>
 
-          <div className="text-4xl border-b-2 border-black pb-1 mb-2">
-            Ingredients
-          </div>
-
-          <ul className="grid grid-cols-2 gap-2">
-            {recipe.ingredients.map((ingredient, i) => (
-              <li key={i} className="list-disc list-inside text-2xl">
-                {ingredient}
-              </li>
-            ))}
-          </ul>
+          <RecipeIngredientInfo ingredients={recipe.ingredients} />
         </div>
 
-        <div className="flex flex-col bg-gray-100 ml-6">
-          <div className="text-4xl border-b-2 border-black pb-1 mb-2">
-            Instructions
-          </div>
-
-          <ul>
-            {recipe.instructions.map((instruction, i) => (
-              <li key={i} className="list-decimal list-inside text-2xl">
-                {instruction}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <RecipeInstructionInfo instructions={recipe.instructions} />
       </div>
     )
   );
