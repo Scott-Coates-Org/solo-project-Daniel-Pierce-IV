@@ -4,8 +4,6 @@ import { auth } from '../firebase/client';
 import Ingredient from '../firebase/models/Ingredient';
 import RecipeIngredients from '../firebase/models/RecipeIngredients';
 import filterRecipes from '../recipe-filter';
-import ButtonDialog from './ButtonDialog';
-import FilterForm from './forms/FilterForm';
 import AdminPage from './pages/AdminPage';
 import Homepage from './pages/HomePage';
 import RecipePage from './pages/RecipePage';
@@ -13,6 +11,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import Favorite from '../firebase/models/Favorite';
 import FavoritesPage from './pages/FavoritesPage';
 import Navbar from './nav/Navbar';
+import Sidebar from './Sidebar';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -104,32 +103,28 @@ export default function App() {
   }
 
   return (
-    <div className="grid grid-cols-[300px,1fr] grid-rows-[60px,1fr] bg-recipe-gray h-full">
-      <div className="flex justify-between">
-        <div className="flex gap-5">
-          <ButtonDialog
-            className="px-2 text-xl bg-yellow-300"
-            content="Filters"
-          >
-            <FilterForm
-              ingredients={ingredients}
-              mustHaveFilters={mustHaveFilters}
-              canHaveFilters={canHaveFilters}
-              cantHaveFilters={cantHaveFilters}
-              onMustHaveSelect={addToMustHaveFilters}
-              onMustHaveRemove={removeFromMustHaveFilters}
-              onCanHaveSelect={addToCanHaveFilters}
-              onCanHaveRemove={removeFromCanHaveFilters}
-              onCantHaveSelect={addToCantHaveFilters}
-              onCantHaveRemove={removeFromCantHaveFilters}
-            />
-          </ButtonDialog>
-        </div>
+    <div className="grid grid-cols-[400px,1fr] grid-rows-[100px,1fr] bg-recipe-gray h-full">
+      <div
+        id="logo"
+        className="text-6xl font-bold place-self-center text-white"
+      >
+        Bespork
       </div>
 
       <Navbar />
 
-      <div className="sidebar-placeholder"></div>
+      <Sidebar
+        ingredients={ingredients}
+        mustHaveFilters={mustHaveFilters}
+        canHaveFilters={canHaveFilters}
+        cantHaveFilters={cantHaveFilters}
+        onMustHaveSelect={addToMustHaveFilters}
+        onMustHaveRemove={removeFromMustHaveFilters}
+        onCanHaveSelect={addToCanHaveFilters}
+        onCanHaveRemove={removeFromCanHaveFilters}
+        onCantHaveSelect={addToCantHaveFilters}
+        onCantHaveRemove={removeFromCantHaveFilters}
+      />
 
       <div className="size-container relative bg-recipe-gray-dark rounded-tl-[60px]">
         <main className="main-scrollbar absolute inset-0 left-28 overflow-y-auto">

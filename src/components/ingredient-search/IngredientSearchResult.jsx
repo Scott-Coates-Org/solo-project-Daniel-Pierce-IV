@@ -9,10 +9,10 @@ export default function IngredientSearchResult({
   onCantHaveSelect,
 }) {
   return (
-    <div className="p-2 bg-blue-200 flex justify-between">
+    <div className="flex justify-between">
       <span>{name}</span>
 
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         <button type="button" onClick={onMustHaveSelect}>
           <MustHaveButtonIcon />
         </button>
