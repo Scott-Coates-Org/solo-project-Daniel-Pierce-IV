@@ -10,7 +10,7 @@ export default function FavoritesPage({ recipes }) {
   return recipes ? (
     <div>
       {recipes.length > 0 ? (
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-16 gap-y-28">
           {recipes.map((recipe, index) => (
             <RecipeCard recipe={recipe} key={index} />
           ))}
