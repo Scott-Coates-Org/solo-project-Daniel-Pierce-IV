@@ -4,7 +4,7 @@ import { auth } from '../firebase/client';
 import ButtonDialog from './ButtonDialog';
 import AuthFormController from './forms/auth/AuthFormController';
 import IngredientSearch from './ingredient-search/IngredientSearch';
-import IngredientSearchResult from './ingredient-search/IngredientSearchResult';
+import IngredientFilterContainer from './IngredientFilterContainer';
 
 export default function Sidebar({
   ingredients,
@@ -50,58 +50,23 @@ export default function Sidebar({
           setSearchbarEmpty={setSearchbarEmpty}
         />
 
-        <div
-          className={`h-full flex flex-col bg-recipe-gray-light rounded-xl text-white p-4 ${
-            searchbarEmpty ? 'hidden' : 'flex'
-          }`}
-        >
-          <h3 className="text-2xl">Search Results</h3>
-
-          {/* rtl with ltr reversal for left-side scrollbar */}
-          <div
-            className="grow relative overflow-y-scroll ingredient-scrollbar"
-            dir="rtl"
-          >
-            <ul className="flex flex-col gap-2 p-3 absolute inset-0" dir="ltr">
-              {prunedSearchIngredients.map((ingredient) => (
-                <li key={ingredient.id}>
-                  <IngredientSearchResult
-                    name={ingredient.name}
-                    onMustHaveSelect={onMustHaveSelect.bind(null, ingredient)}
-                    onCanHaveSelect={onCanHaveSelect.bind(null, ingredient)}
-                    onCantHaveSelect={onCantHaveSelect.bind(null, ingredient)}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className={`h-full ${searchbarEmpty ? 'hidden' : 'block'}`}>
+          <IngredientFilterContainer
+            label="Search Results"
+            ingredientFilters={prunedSearchIngredients}
+            onMustHaveSelect={onMustHaveSelect}
+            onCanHaveSelect={onCanHaveSelect}
+            onCantHaveSelect={onCantHaveSelect}
+          />
         </div>
 
-        <div className="h-full flex flex-col bg-recipe-gray-light rounded-xl text-white p-4">
-          <h3 className="text-2xl">Selected Ingredients</h3>
-
-          {/* rtl with ltr reversal for left-side scrollbar */}
-          <div
-            className="grow relative overflow-y-scroll ingredient-scrollbar direct"
-            dir="rtl"
-          >
-            <ul
-              className="flex flex-col gap-2 p-3 absolute inset-0 text"
-              dir="ltr"
-            >
-              {selectedIngredients.map((ingredient) => (
-                <li key={ingredient.id}>
-                  <IngredientSearchResult
-                    name={ingredient.name}
-                    onMustHaveSelect={onMustHaveSelect.bind(null, ingredient)}
-                    onCanHaveSelect={onCanHaveSelect.bind(null, ingredient)}
-                    onCantHaveSelect={onCantHaveSelect.bind(null, ingredient)}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <IngredientFilterContainer
+          label="Selected Ingredients"
+          ingredientFilters={selectedIngredients}
+          onMustHaveSelect={onMustHaveSelect}
+          onCanHaveSelect={onCanHaveSelect}
+          onCantHaveSelect={onCantHaveSelect}
+        />
       </div>
 
       {user ? (
