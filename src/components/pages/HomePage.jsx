@@ -18,7 +18,7 @@ export default function Homepage({ recipesToShow, isFiltered }) {
   }, [recipesToShow]);
 
   return (
-    <div className="flex flex-wrap gap-16 gap-y-28 pb-12 pt-28 pr-28">
+    <div className="flex flex-wrap gap-16 gap-y-28">
       {recipes?.map((recipe, index) => (
         <RecipeCard recipe={recipe} key={index} />
       ))}

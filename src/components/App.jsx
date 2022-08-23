@@ -127,7 +127,7 @@ export default function App() {
       />
 
       <div className="size-container relative bg-recipe-gray-dark rounded-tl-[60px]">
-        <main className="main-scrollbar absolute inset-0 left-28 overflow-y-auto">
+        <main className="main-scrollbar absolute inset-0 p-28 overflow-y-auto">
           <Routes>
             <Route
               path="/"
