@@ -4,6 +4,7 @@ import { auth } from '../firebase/client';
 import ButtonDialog from './ButtonDialog';
 import AuthFormController from './forms/auth/AuthFormController';
 import IngredientSearch from './ingredient-search/IngredientSearch';
+import IngredientFilter from './IngredientFilter';
 import IngredientFilterContainer from './IngredientFilterContainer';
 
 export default function Sidebar({
@@ -51,22 +52,66 @@ export default function Sidebar({
         />
 
         <div className={`h-full ${searchbarEmpty ? 'hidden' : 'block'}`}>
-          <IngredientFilterContainer
-            label="Search Results"
-            ingredientFilters={prunedSearchIngredients}
-            onMustHaveSelect={onMustHaveSelect}
-            onCanHaveSelect={onCanHaveSelect}
-            onCantHaveSelect={onCantHaveSelect}
-          />
+          <IngredientFilterContainer label="Search Results">
+            {prunedSearchIngredients.map((ingredient) => (
+              <li key={ingredient.id}>
+                <IngredientFilter
+                  name={ingredient.name}
+                  onMustHaveSelect={onMustHaveSelect.bind(null, ingredient)}
+                  onCanHaveSelect={onCanHaveSelect.bind(null, ingredient)}
+                  onCantHaveSelect={onCantHaveSelect.bind(null, ingredient)}
+                />
+              </li>
+            ))}
+          </IngredientFilterContainer>
         </div>
 
-        <IngredientFilterContainer
-          label="Selected Ingredients"
-          ingredientFilters={selectedIngredients}
-          onMustHaveSelect={onMustHaveSelect}
-          onCanHaveSelect={onCanHaveSelect}
-          onCantHaveSelect={onCantHaveSelect}
-        />
+        <IngredientFilterContainer label="Selected Ingredients">
+          {mustHaveFilters.map((ingredient) => (
+            <li key={ingredient.id}>
+              <IngredientFilter
+                name={ingredient.name}
+                isMustHave={true}
+                onMustHaveSelect={onMustHaveSelect.bind(null, ingredient)}
+                onCanHaveSelect={onCanHaveSelect.bind(null, ingredient)}
+                onCantHaveSelect={onCantHaveSelect.bind(null, ingredient)}
+                onMustHaveRemove={onMustHaveRemove.bind(null, ingredient)}
+                onCanHaveRemove={onCanHaveRemove.bind(null, ingredient)}
+                onCantHaveRemove={onCantHaveRemove.bind(null, ingredient)}
+              />
+            </li>
+          ))}
+
+          {canHaveFilters.map((ingredient) => (
+            <li key={ingredient.id}>
+              <IngredientFilter
+                name={ingredient.name}
+                isCanHave={true}
+                onMustHaveSelect={onMustHaveSelect.bind(null, ingredient)}
+                onCanHaveSelect={onCanHaveSelect.bind(null, ingredient)}
+                onCantHaveSelect={onCantHaveSelect.bind(null, ingredient)}
+                onMustHaveRemove={onMustHaveRemove.bind(null, ingredient)}
+                onCanHaveRemove={onCanHaveRemove.bind(null, ingredient)}
+                onCantHaveRemove={onCantHaveRemove.bind(null, ingredient)}
+              />
+            </li>
+          ))}
+
+          {cantHaveFilters.map((ingredient) => (
+            <li key={ingredient.id}>
+              <IngredientFilter
+                name={ingredient.name}
+                isCantHave={true}
+                onMustHaveSelect={onMustHaveSelect.bind(null, ingredient)}
+                onCanHaveSelect={onCanHaveSelect.bind(null, ingredient)}
+                onCantHaveSelect={onCantHaveSelect.bind(null, ingredient)}
+                onMustHaveRemove={onMustHaveRemove.bind(null, ingredient)}
+                onCanHaveRemove={onCanHaveRemove.bind(null, ingredient)}
+                onCantHaveRemove={onCantHaveRemove.bind(null, ingredient)}
+              />
+            </li>
+          ))}
+        </IngredientFilterContainer>
       </div>
 
       {user ? (

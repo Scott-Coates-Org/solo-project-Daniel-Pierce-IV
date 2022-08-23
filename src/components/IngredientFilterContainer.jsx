@@ -1,11 +1,6 @@
-import IngredientSearchResult from './ingredient-search/IngredientSearchResult';
-
 export default function IngredientFilterContainer({
   label,
-  ingredientFilters,
-  onMustHaveSelect,
-  onCanHaveSelect,
-  onCantHaveSelect,
+  children: ingredientFilters,
 }) {
   return (
     <div className="h-full flex flex-col bg-recipe-gray-light rounded-xl text-white p-4">
@@ -17,16 +12,7 @@ export default function IngredientFilterContainer({
         dir="rtl"
       >
         <ul className="flex flex-col gap-2 p-3 absolute inset-0" dir="ltr">
-          {ingredientFilters.map((ingredient) => (
-            <li key={ingredient.id}>
-              <IngredientSearchResult
-                name={ingredient.name}
-                onMustHaveSelect={onMustHaveSelect.bind(null, ingredient)}
-                onCanHaveSelect={onCanHaveSelect.bind(null, ingredient)}
-                onCantHaveSelect={onCantHaveSelect.bind(null, ingredient)}
-              />
-            </li>
-          ))}
+          {ingredientFilters}
         </ul>
       </div>
     </div>
