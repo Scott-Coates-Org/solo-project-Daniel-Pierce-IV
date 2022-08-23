@@ -12,7 +12,9 @@ export default function NavItem({ url, icon: Icon, text }) {
           >
             <Icon
               isFilled={isActive}
-              className={isActive ? 'bg-recipe-red-dark' : ''}
+              className={
+                isActive ? 'bg-recipe-red-dark' : 'bg-recipe-gray-lighter'
+              }
             />
             <span>{text}</span>
           </div>

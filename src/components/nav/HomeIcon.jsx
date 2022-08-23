@@ -1,7 +1,7 @@
 export default function HomeIcon({ isFilled, className }) {
   return (
     <svg
-      className={`w-9 h-9 p-1 bg-recipe-gray-lighter rounded-full ${className}`}
+      className={`w-9 h-9 p-1 rounded-full ${className}`}
       viewBox="0 0 24 24"
     >
       {isFilled ? (
