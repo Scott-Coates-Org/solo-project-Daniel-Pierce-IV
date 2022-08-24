@@ -5,7 +5,7 @@ export default function RecipeInstructionData({ instruction, stepNumber }) {
         {stepNumber}
       </div>
 
-      <p>{instruction}</p>
+      <p className="text-xl">{instruction}</p>
     </li>
   );
 }
