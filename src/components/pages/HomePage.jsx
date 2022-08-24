@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Recipe from '../../firebase/models/Recipe';
-import RecipeCard from '../RecipeCard';
+import RecipeCard from './RecipeCard';
 
 export default function Homepage({ recipesToShow, isFiltered }) {
   const [recipes, setRecipes] = useState([]);

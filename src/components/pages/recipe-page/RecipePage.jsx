@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Recipe from '../../firebase/models/Recipe';
+import Recipe from '../../../firebase/models/Recipe';
 import FavoriteButton from '../FavoriteButton';
-import RecipeIngredientInfo from '../RecipeIngredientInfo';
-import RecipeInstructionInfo from '../RecipeInstructionInfo';
-import RecipeTimeInfo from '../RecipeTimeInfo';
+import RecipeIngredientInfo from './RecipeIngredientInfo';
+import RecipeInstructionInfo from './RecipeInstructionInfo';
+import RecipeTimeInfo from './RecipeTimeInfo';
 
 export default function RecipePage({
   favoriteRecipeIds,

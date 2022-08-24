@@ -6,12 +6,12 @@ import RecipeIngredients from '../firebase/models/RecipeIngredients';
 import filterRecipes from '../recipe-filter';
 import AdminPage from './pages/AdminPage';
 import Homepage from './pages/HomePage';
-import RecipePage from './pages/RecipePage';
+import RecipePage from './pages/recipe-page/RecipePage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Favorite from '../firebase/models/Favorite';
 import FavoritesPage from './pages/FavoritesPage';
 import Navbar from './nav/Navbar';
-import Sidebar from './Sidebar';
+import Sidebar from './sidebar/Sidebar';
 
 export default function App() {
   const [ingredients, setIngredients] = useState([]);

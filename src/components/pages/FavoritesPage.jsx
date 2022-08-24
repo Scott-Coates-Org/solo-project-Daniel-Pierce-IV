@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Dialog from '../Dialog';
 import AuthFormController from '../forms/auth/AuthFormController';
-import RecipeCard from '../RecipeCard';
+import RecipeCard from './RecipeCard';
 
 export default function FavoritesPage({ recipes }) {
   // Show auth form automatically if there are no recipes

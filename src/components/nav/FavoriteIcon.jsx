@@ -1,4 +1,4 @@
-import NavIcon from '../NavIcon';
+import NavIcon from '../icons/NavIcon';
 
 export default function FavoriteIcon({ isActive }) {
   return (

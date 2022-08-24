@@ -1,4 +1,4 @@
-import BaseIcon from '../BaseIcon';
+import BaseIcon from '../../icons/BaseIcon';
 
 export default function SearchIcon() {
   return (

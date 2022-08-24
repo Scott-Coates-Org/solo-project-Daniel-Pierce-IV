@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebase/client';
-import ButtonDialog from './ButtonDialog';
-import AuthFormController from './forms/auth/AuthFormController';
+import { auth } from '../../firebase/client';
+import ButtonDialog from '../ButtonDialog';
+import AuthFormController from '../forms/auth/AuthFormController';
 import IngredientSearch from './ingredient-search/IngredientSearch';
-import IngredientFilter from './IngredientFilter';
-import IngredientFilterContainer from './IngredientFilterContainer';
+import IngredientFilterContainer from './ingredient-search/IngredientFilterContainer';
+import IngredientFilter from './ingredient-search/IngredientFilter';
 
 export default function Sidebar({
   ingredients,

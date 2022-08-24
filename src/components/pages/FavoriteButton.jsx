@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '../firebase/client';
-import Dialog from './Dialog';
-import AuthFormController from './forms/auth/AuthFormController';
+import { auth } from '../../firebase/client';
+import Dialog from '../Dialog';
+import AuthFormController from '../forms/auth/AuthFormController';
 
 export default function FavoriteButton({ isFavorited, onClick }) {
   const [user] = useAuthState(auth);

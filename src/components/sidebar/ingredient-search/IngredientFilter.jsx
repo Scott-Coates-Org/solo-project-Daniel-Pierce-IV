@@ -1,6 +1,6 @@
-import CanHaveButtonIcon from './ingredient-search/CanHaveButtonIcon';
-import CantHaveButtonIcon from './ingredient-search/CantHaveButtonIcon';
-import MustHaveButtonIcon from './ingredient-search/MustHaveButtonIcon';
+import CanHaveButtonIcon from './CanHaveButtonIcon';
+import CantHaveButtonIcon from './CantHaveButtonIcon';
+import MustHaveButtonIcon from './MustHaveButtonIcon';
 
 export default function IngredientFilter({
   name,
