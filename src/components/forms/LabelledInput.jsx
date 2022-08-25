@@ -3,7 +3,9 @@ export default function LabelledInput({
   id,
   value,
   type = 'text',
+  minLength,
   onChange,
+  required,
 }) {
   const fontSizeClass = 'text-xl';
 
@@ -15,6 +17,8 @@ export default function LabelledInput({
         id={id}
         value={value}
         onChange={onChange}
+        required={required}
+        minLength={minLength}
       />
 
       <div

@@ -9,17 +9,24 @@ const RESET = 'reset';
 
 export default function AuthFormController() {
   const [formType, setFormType] = useState('signin');
+  const [errorMessages, setErrorMessages] = useState([]);
 
-  function showSignUpForm() {
-    setFormType(SIGN_UP);
+  function addErrorMessage(message) {
+    // Remove vendor messaging and improve formatting
+    let formattedMessage = message
+      .replace('Firebase: Error (auth/', '')
+      .replace(').', '')
+      .replaceAll('-', ' ');
+
+    // Capitalize the message
+    formattedMessage =
+      formattedMessage[0].toUpperCase() + formattedMessage.slice(1);
+
+    setErrorMessages([...errorMessages, formattedMessage]);
   }
 
-  function showSignInForm() {
-    setFormType(SIGN_IN);
-  }
-
-  function showPasswordResetForm() {
-    setFormType(RESET);
+  function resetErrorMessages() {
+    setErrorMessages([]);
   }
 
   let form;
@@ -28,18 +35,40 @@ export default function AuthFormController() {
     case SIGN_IN:
       form = (
         <SigninForm
-          onResetPassword={showPasswordResetForm}
-          onSignUp={showSignUpForm}
+          onAuthError={addErrorMessage}
+          onShowResetPassword={setFormType.bind(null, RESET)}
+          onShowSignUp={setFormType.bind(null, SIGN_UP)}
+          onSubmit={resetErrorMessages}
         />
       );
       break;
     case SIGN_UP:
-      form = <SignupForm onSignIn={showSignInForm} />;
+      form = (
+        <SignupForm
+          onAuthError={addErrorMessage}
+          onShowSignIn={setFormType.bind(null, SIGN_IN)}
+          onSubmit={resetErrorMessages}
+        />
+      );
       break;
     case RESET:
-      form = <PasswordResetForm onSignIn={showSignInForm} />;
+      form = (
+        <PasswordResetForm
+          onAuthError={addErrorMessage}
+          onShowSignIn={setFormType.bind(null, SIGN_IN)}
+          onSubmit={resetErrorMessages}
+        />
+      );
       break;
   }
 
-  return form;
+  return (
+    <div className="p-16 bg-white rounded-[4rem]">
+      {form}
+
+      {errorMessages.map((error) => (
+        <div>{error}</div>
+      ))}
+    </div>
+  );
 }
