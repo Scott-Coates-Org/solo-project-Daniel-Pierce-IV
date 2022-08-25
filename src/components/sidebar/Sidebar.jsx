@@ -115,7 +115,7 @@ export default function Sidebar({
       </div>
 
       {user ? (
-        <div className="flex justify-between items-center text-white">
+        <div className="flex justify-between items-center py-1 text-white">
           <span className="text-xl">
             {user.displayName ? user.displayName : user.email}
           </span>
@@ -131,7 +131,7 @@ export default function Sidebar({
       ) : (
         <div className="flex justify-center">
           <ButtonDialog
-            className="px-4 text-xl bg-recipe-green hover:brightness-[82%]"
+            className="px-4 text-xl py-1 rounded-full bg-recipe-green text-white hover:brightness-[82%]"
             content={'Sign in'}
           >
             <AuthFormController />
