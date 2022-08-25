@@ -18,12 +18,12 @@ export default function LabelledInput({
       />
 
       <div
-        className={`absolute left-2 px-1 -translate-y-1/2 transition-all ${
+        className={`absolute left-2 px-1 -translate-y-1/2 origin-left transition-all ${
           value ? 'top-0 scale-[85%]' : 'top-1/2'
         } ${fontSizeClass} peer-focus:top-0 peer-focus:scale-[85%] `}
       >
         {/* Background to hide border line */}
-        <div className="absolute w-full h-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-500"></div>
+        <div className="absolute w-full h-3 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white"></div>
 
         <label className="relative" htmlFor={id}>
           {label}
