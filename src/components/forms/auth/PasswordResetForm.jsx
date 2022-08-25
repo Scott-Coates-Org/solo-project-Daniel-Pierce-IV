@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { auth } from '../../../firebase/client';
+import LabelledInput from '../LabelledInput';
 
 export default function PasswordResetForm({ onSignIn }) {
   const [email, setEmail] = useState('');
@@ -70,18 +71,13 @@ export default function PasswordResetForm({ onSignIn }) {
           </span>
         ))}
 
-        <div className="flex flex-col">
-          <label className="text-sm" htmlFor="email">
-            Email
-          </label>
-
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        <LabelledInput
+          id="email"
+          type="email"
+          label="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
 
         <div className="flex gap-3">
           <button

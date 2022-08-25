@@ -5,6 +5,7 @@ import {
   useSignInWithGoogle,
 } from 'react-firebase-hooks/auth';
 import { auth } from '../../../firebase/client';
+import LabelledInput from '../LabelledInput';
 
 export default function SigninForm({ onResetPassword, onSignUp }) {
   const [email, setEmail] = useState('');
@@ -85,31 +86,21 @@ export default function SigninForm({ onResetPassword, onSignUp }) {
           </span>
         ))}
 
-        <div className="flex flex-col">
-          <label className="text-sm" htmlFor="email">
-            Email
-          </label>
+        <LabelledInput
+          id="email"
+          type="email"
+          label="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
 
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label className="text-sm" htmlFor="password">
-            Password
-          </label>
-
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        <LabelledInput
+          id="password"
+          type="password"
+          label="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
 
         <button
           onClick={onResetPassword}

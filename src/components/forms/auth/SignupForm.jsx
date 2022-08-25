@@ -5,6 +5,7 @@ import {
   useSignInWithGoogle,
 } from 'react-firebase-hooks/auth';
 import { auth } from '../../../firebase/client';
+import LabelledInput from '../LabelledInput';
 
 export default function SignupForm({ onSignIn }) {
   const [email, setEmail] = useState('');
@@ -79,7 +80,7 @@ export default function SignupForm({ onSignIn }) {
     <div className="p-2">
       <form
         action=""
-        className="signup p-2 flex flex-col gap-2"
+        className="signup p-2 flex flex-col gap-4"
         onSubmit={attemptSignUp}
       >
         <h2 className="text-2xl text-center">Sign Up</h2>
@@ -90,44 +91,29 @@ export default function SignupForm({ onSignIn }) {
           </span>
         ))}
 
-        <div className="flex flex-col">
-          <label className="text-sm" htmlFor="email">
-            Email
-          </label>
+        <LabelledInput
+          id="email"
+          type="email"
+          label="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
 
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        <LabelledInput
+          id="password"
+          type="password"
+          label="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
 
-        <div className="flex flex-col">
-          <label className="text-sm" htmlFor="password">
-            Password
-          </label>
-
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label className="text-sm" htmlFor="password-confirm">
-            Password confirm
-          </label>
-
-          <input
-            type="password"
-            id="password-confirm"
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-          />
-        </div>
+        <LabelledInput
+          id="password-confirm"
+          type="password"
+          label="Password confirm"
+          onChange={(e) => setPasswordConfirm(e.target.value)}
+          value={passwordConfirm}
+        />
 
         <div className="flex gap-3">
           <button
